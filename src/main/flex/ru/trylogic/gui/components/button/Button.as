@@ -11,6 +11,9 @@ package ru.trylogic.gui.components.button
 	import ru.trylogic.unitouch.gestures.abstract.GestureEvent;
 
 	import tl.view.IView;
+	import tl.viewController.outlet;
+
+	use namespace outlet;
 
 
 	[Event(name="tap")]
@@ -33,14 +36,11 @@ package ru.trylogic.gui.components.button
 		[Bindable]
 		public var skinStyle : ButtonSkinStyle = new DefaultButtonSkinStyle();
 
-		[Outlet]
-		public var upState : State;
+		outlet var upState : State;
 
-		[Outlet]
-		public var downState : State;
+		outlet var downState : State;
 
-		[Outlet]
-		public var disabledState : State;
+		outlet var disabledState : State;
 
 		protected var tapGesture : TapGesture;
 

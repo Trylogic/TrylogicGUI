@@ -12,6 +12,8 @@ package ru.trylogic.gui.components.checkBox
 	import ru.trylogic.gui.components.button.Button;
 	import ru.trylogic.gui.components.button.ButtonSkinStyle;
 
+	import tl.viewController.outlet;
+
 	/*
  смотри, что надо сделать:
 
@@ -33,6 +35,8 @@ package ru.trylogic.gui.components.checkBox
 
 */
 
+	use namespace outlet;
+
 	public class CheckBox extends TUIComponentViewController
 	{
 		public static const CHANGED_EVENT : Event = new Event( "changed" );
@@ -43,14 +47,11 @@ package ru.trylogic.gui.components.checkBox
 		[Bindable]
 		public var skinStyle : CheckBoxSkinStyle = null;//***
 
-		[Outlet]
-		public var checkedState : State;
+		outlet var checkedState : State;
 
-		[Outlet]
-		public var uncheckedState : State;
+		outlet var uncheckedState : State;
 
-		[Outlet]
-		public var checkButton : Button;
+		outlet var checkButton : Button;
 
 		private var _checked : Boolean = false;
 

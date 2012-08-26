@@ -14,14 +14,16 @@ package ru.trylogic.gui.components.list
 
 	import tl.view.IView;
 	import tl.viewController.ViewController;
+	import tl.viewController.outlet;
+
+	use namespace outlet;
 
 	public class List extends TUIComponentViewController
 	{
 
 		private const pool : Array = [];
 
-		[Outlet]
-		public var itemsContainer : ContainerBase;
+		outlet var itemsContainer : ContainerBase;
 
 		[Bindable]
 		public var layout : ILayout;

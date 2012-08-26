@@ -1,4 +1,4 @@
-package ru.trylogic.gui.components.stick
+	package ru.trylogic.gui.components.stick
 {
 
 	import flash.display.Stage;
@@ -10,6 +10,9 @@ package ru.trylogic.gui.components.stick
 	import ru.trylogic.unitouch.gestures.abstract.GestureEvent;
 
 	import tl.ioc.IoCHelper;
+	import tl.viewController.outlet;
+
+	use namespace outlet;
 
 	public class Stick extends TUIComponentViewController
 	{
@@ -20,14 +23,11 @@ package ru.trylogic.gui.components.stick
 		[Bindable]
 		public var delegate : Function;
 
-		[Outlet]
-		public var stickButton : Button;
+		outlet var stickButton : Button;
 
-		[Outlet]
-		public var controls : ContainerBase;
+		outlet var controls : ContainerBase;
 
-		[Outlet]
-		public var moveGesture : MoveGesture;
+		outlet var moveGesture : MoveGesture;
 
 		public static const STICK_SIZE : int = 100;
 
