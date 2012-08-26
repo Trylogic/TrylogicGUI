@@ -47,7 +47,6 @@ package ru.trylogic.gui.components.image
 		public function Image()
 		{
 			super();
-			controllerClass = ViewController;
 		}
 	}
 }

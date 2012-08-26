@@ -9,127 +9,124 @@ package ru.trylogic.gui
 
 	import mx.events.PropertyChangeEvent;
 
-	import ru.trylogic.gui.skins.Skin;
-
 	import tl.view.IView;
-	import tl.adapters.IViewContainerAdapter;
 	import tl.viewController.IVIewController;
 	import tl.viewController.ViewController;
 
 	public class TUIComponentViewController extends ViewController implements IView
 	{
+		use namespace viewControllerInternal;
 
 		protected var _skinClass : Class;
-		protected var _skin : IView;
 
 		public function get x() : Number
 		{
-			return skin.face.x;
+			return face.x;
 		}
 
 		[Bindable]
 		public function set x( value : Number ) : void
 		{
-			skin.face.x = value;
+			face.x = value;
 		}
 
 		public function get y() : Number
 		{
-			return skin.face.y;
+			return face.y;
 		}
 
 		[Bindable]
 		public function set y( value : Number ) : void
 		{
-			skin.face.y = value;
+			face.y = value;
 		}
 
 		public function get width() : Number
 		{
-			return skin.face.width;
+			return face.width;
 		}
 
 		[Bindable]
 		public function set width( value : Number ) : void
 		{
-			skin.face.width = value;
+			face.width = value;
 		}
 
 		public function get height() : Number
 		{
-			return skin.face.height;
+			return face.height;
 		}
 
 		[Bindable]
 		public function set height( value : Number ) : void
 		{
-			skin.face.height = value;
+			face.height = value;
 		}
 
 		public function get scaleX() : Number
 		{
-			return skin.face.scaleX;
+			return face.scaleX;
 		}
 
 		[Bindable]
 		public function set scaleX( value : Number ) : void
 		{
-			skin.face.scaleX = value;
+			face.scaleX = value;
 		}
 
 		public function get scaleY() : Number
 		{
-			return skin.face.scaleY;
+			return face.scaleY;
 		}
 
 		[Bindable]
 		public function set scaleY( value : Number ) : void
 		{
-			skin.face.scaleY = value;
+			face.scaleY = value;
 		}
 
 		public function get rotation() : Number
 		{
-			return skin.face.rotation;
+			return face.rotation;
 		}
 
 		[Bindable]
 		public function set rotation( value : Number ) : void
 		{
-			skin.face.rotation = value;
+			face.rotation = value;
 		}
 
 		public function get alpha() : Number
 		{
-			return skin.face.alpha;
+			return face.alpha;
 		}
 
 		[Bindable]
 		public function set alpha( value : Number ) : void
 		{
-			skin.face.alpha = value;
+			face.alpha = value;
 		}
 
 		public function get visible() : Boolean
 		{
-			return skin.face.visible;
+			return face.visible;
 		}
 
 		[Bindable]
 		public function set visible( value : Boolean ) : void
 		{
-			skin.face.visible = value;
+			face.visible = value;
 		}
 
 		public function get name() : String
 		{
-			return skin.face.name;
+			return face.name;
 		}
 
 		[Bindable]
 		public function set name( value : String ) : void
 		{
-			skin.face.name = value;
+			face.name = value;
 		}
 
 		public function TUIComponentViewController()
@@ -139,25 +136,19 @@ package ru.trylogic.gui
 		[Bindable(event="propertyChange")]
 		public function get face() : *
 		{
-			return skin.face;
-		}
-
-		[Bindable(event="propertyChange")]
-		public function get skin() : IView
-		{
-			if ( _skin == null )
-			{
-				_skin = new _skinClass();
-				_skin['hostComponent'] = this;
-				initWithView( _skin );
-				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "skin", null, _skin ) );
-			}
-			return _skin;
+			return view.face;
 		}
 
 		override protected function get view() : IView
 		{
-			return skin;
+			if ( _viewInstance == null )
+			{
+				_viewInstance = new _skinClass();
+				_viewInstance['hostComponent'] = this;
+				initWithView( _viewInstance );
+				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "view", null, _viewInstance ) );
+			}
+			return _viewInstance;
 		}
 
 		public function set skinClass( value : Class ) : void
@@ -177,39 +168,39 @@ package ru.trylogic.gui
 
 		public function get currentState() : String
 		{
-			return skin.currentState;
+			return view.currentState;
 		}
 
 		public function set currentState( value : String ) : void
 		{
-			skin.currentState = value;
+			view.currentState = value;
 		}
 
 		[ArrayElementType("mx.states.State")]
 		public function get states() : Array
 		{
-			return skin.states;
+			return view.states;
 		}
 
 		public function set states( value : Array ) : void
 		{
-			skin.states = value;
+			view.states = value;
 		}
 
 		[ArrayElementType("mx.states.Transition")]
 		public function get transitions() : Array
 		{
-			return skin.transitions;
+			return view.transitions;
 		}
 
 		public function set transitions( value : Array ) : void
 		{
-			skin.transitions = value;
+			view.transitions = value;
 		}
 
 		public function hasState( stateName : String ) : Boolean
 		{
-			return skin.hasState( stateName );
+			return view.hasState( stateName );
 		}
 	}
 }

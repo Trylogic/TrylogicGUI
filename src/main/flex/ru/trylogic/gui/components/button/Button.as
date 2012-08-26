@@ -49,17 +49,17 @@ package ru.trylogic.gui.components.button
 		{
 			if ( value )
 			{
-				currentState = disabledState.name;
+				view.currentState = disabledState.name;
 			}
-			else if ( currentState == disabledState.name )
+			else if ( view.currentState == disabledState.name )
 			{
-				currentState = upState.name;
+				view.currentState = upState.name;
 			}
 		}
 
 		public function get disabled() : Boolean
 		{
-			return currentState == disabledState.name;
+			return view.currentState == disabledState.name;
 		}
 
 		public function Button()
@@ -75,7 +75,7 @@ package ru.trylogic.gui.components.button
 			}
 
 			tapGesture = new TapGesture();
-			tapGesture.target = view.face;
+			tapGesture.target = face;
 			tapGesture.addEventListener( GestureEvent.POSSIBLE, tapGesture_onPossible, false, 0, true );
 			tapGesture.addEventListener( GestureEvent.RECOGNIZED, tapGesture_onRecognized, false, 0, true );
 			tapGesture.addEventListener( GestureEvent.FAILED, tapGesture_onFailed, false, 0, true );
@@ -84,34 +84,34 @@ package ru.trylogic.gui.components.button
 
 		protected function tapGesture_onPossible( event : GestureEvent ) : void
 		{
-			if ( currentState == disabledState.name )
+			if ( view.currentState == disabledState.name )
 			{
 				return;
 			}
 
-			currentState = downState.name;
+			view.currentState = downState.name;
 			dispatchEvent( event );
 		}
 
 		protected function tapGesture_onRecognized( event : GestureEvent ) : void
 		{
-			if ( currentState == disabledState.name )
+			if ( view.currentState == disabledState.name )
 			{
 				return;
 			}
 
-			currentState = upState.name;
+			view.currentState = upState.name;
 			dispatchEvent( TAP_EVENT );
 		}
 
 		protected function tapGesture_onFailed( event : GestureEvent ) : void
 		{
-			if ( currentState == disabledState.name )
+			if ( view.currentState == disabledState.name )
 			{
 				return;
 			}
 
-			currentState = upState.name;
+			view.currentState = upState.name;
 			dispatchEvent( event );
 		}
 	}
