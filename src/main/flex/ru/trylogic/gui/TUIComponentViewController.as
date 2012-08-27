@@ -7,8 +7,6 @@
 package ru.trylogic.gui
 {
 
-	import mx.events.PropertyChangeEvent;
-
 	import tl.view.IView;
 	import tl.viewController.IVIewController;
 	import tl.viewController.ViewController;
@@ -133,7 +131,6 @@ package ru.trylogic.gui
 		{
 		}
 
-		[Bindable(event="propertyChange")]
 		public function get face() : *
 		{
 			return view.face;
@@ -146,7 +143,6 @@ package ru.trylogic.gui
 				_viewInstance = new _skinClass();
 				_viewInstance['hostComponent'] = this;
 				initWithView( _viewInstance );
-				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "view", null, _viewInstance ) );
 			}
 			return _viewInstance;
 		}

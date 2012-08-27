@@ -1,14 +1,6 @@
 package ru.trylogic.gui
 {
 
-	import mx.core.IStateClient2;
-	import mx.events.PropertyChangeEvent;
-
-	import ru.trylogic.gui.components.button.ButtonSkin;
-	import ru.trylogic.gui.skins.Skin;
-
-	import tl.ioc.IoCHelper;
-
 	import tl.view.AbstractView;
 
 	public class TUIComponent extends AbstractView
