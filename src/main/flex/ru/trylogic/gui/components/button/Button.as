@@ -15,20 +15,10 @@ package ru.trylogic.gui.components.button
 
 	use namespace outlet;
 
-
 	[Event(name="tap")]
 	public class Button extends TUIComponentViewController
 	{
 		public static const TAP_EVENT : Event = new Event( "tap" );
-
-		[Bindable]
-		public var downStateView : IView;
-
-		[Bindable]
-		public var disabledStateView : IView;
-
-		[Bindable]
-		public var upStateView : IView;
 
 		[Bindable]
 		public var text : String = "";
