@@ -7,11 +7,12 @@
 package ru.trylogic.gui
 {
 
+	import spark.components.supportClasses.SkinnableComponent;
+
 	import tl.view.IView;
 	import tl.viewController.IVIewController;
-	import tl.viewController.ViewController;
 
-	public class TUIComponentViewController extends ViewController implements IView
+	public class TUIComponentViewController extends SkinnableComponent implements IView
 	{
 		use namespace viewControllerInternal;
 
@@ -145,6 +146,11 @@ package ru.trylogic.gui
 				initWithView( _viewInstance );
 			}
 			return _viewInstance;
+		}
+
+		public function get skinClass() : Class
+		{
+			return _skinClass;
 		}
 
 		public function set skinClass( value : Class ) : void

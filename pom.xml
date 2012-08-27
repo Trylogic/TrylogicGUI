@@ -24,7 +24,7 @@
 				<version>${flexmojos.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<storepass />
+					<storepass/>
 					<skipTests>true</skipTests>
 					<skipTest>true</skipTest>
 					<debug>false</debug>
@@ -80,6 +80,20 @@
 			<artifactId>flex-framework</artifactId>
 			<version>${flex.framework.version}</version>
 			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.trylogic</groupId>
+			<artifactId>monkey-flex</artifactId>
+			<version>[1.0.0-SNAPSHOT,]</version>
+			<type>swc</type>
+			<exclusions>
+				<exclusion>
+					<groupId>com.adobe.flex.framework</groupId>
+					<artifactId>playerglobal</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

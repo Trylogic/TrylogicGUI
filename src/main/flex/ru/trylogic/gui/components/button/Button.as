@@ -10,25 +10,17 @@ package ru.trylogic.gui.components.button
 	import ru.trylogic.unitouch.gestures.TapGesture;
 	import ru.trylogic.unitouch.gestures.abstract.GestureEvent;
 
-	import tl.view.IView;
 	import tl.viewController.outlet;
 
 	use namespace outlet;
 
-
 	[Event(name="tap")]
+	[SkinState("up")]
+	[SkinState("down")]
+	[SkinState("disabled")]
 	public class Button extends TUIComponentViewController
 	{
 		public static const TAP_EVENT : Event = new Event( "tap" );
-
-		[Bindable]
-		public var downStateView : IView;
-
-		[Bindable]
-		public var disabledStateView : IView;
-
-		[Bindable]
-		public var upStateView : IView;
 
 		[Bindable]
 		public var text : String = "";

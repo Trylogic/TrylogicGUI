@@ -1,22 +1,21 @@
 <?xml version="1.0"?>
 <skins:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:containers="ru.trylogic.gui.containers.*" xmlns:gestures="ru.trylogic.unitouch.gestures.*" xmlns:skins="ru.trylogic.gui.skins.*"
-			xmlns:button="ru.trylogic.gui.components.button.*" xmlns:image="ru.trylogic.gui.components.image.*">
+			xmlns:button="ru.trylogic.gui.components.button.*" xmlns:image="ru.trylogic.gui.components.image.*" implements="tl.view.IView">
 
 	<fx:Metadata>
 		[HostComponent("ru.trylogic.gui.components.stick.Stick")]
 	</fx:Metadata>
 
 	<fx:Declarations>
-		<gestures:MoveGesture id="moveGesture" target="{face}" slop="0" />
+		<gestures:MoveGesture id="moveGesture" target="{face}" slop="0"/>
 	</fx:Declarations>
 
 	<containers:ContainerBase>
-		<!--containers:ContainerBase id="controls" x="70" y="100" subViews="{new &lt;IView&gt;[backgroundView, stickButton]}" visible="false"/-->
 		<containers:ContainerBase id="controls" x="70" y="100" visible="false">
-			<image:Image texture="{hostComponent.skinStyle.backgroundTexture}" />
-			<button:Button id="stickButton" skinStyle="{hostComponent.skinStyle.stickButtonSkinStyle}" />
+			<image:Image texture="{hostComponent.skinStyle.backgroundTexture}"/>
+			<button:Button id="stickButton" skinStyle="{hostComponent.skinStyle.stickButtonSkinStyle}"/>
 		</containers:ContainerBase>
 
-		<image:Image id="touchRegion" texture="{new BitmapData(400, 300, true, 0x20000000)}" />
+		<image:Image id="touchRegion" texture="{new BitmapData(400, 300, true, 0x20000000)}"/>
 	</containers:ContainerBase>
 </skins:Skin>
