@@ -6,26 +6,18 @@ package ru.trylogic.gui.components.image
 	import ru.trylogic.gui.*;
 	import ru.trylogic.gui.adapters.IImageAdapter;
 
-	import tl.ioc.IoCHelper;
+	import tl.viewController.outlet;
 
-	public class Image extends TUIComponent
+	public class Image extends TUIComponentViewController
 	{
+		use namespace viewControllerInternal;
+		use namespace outlet;
 
-		[Bindable(event="propertyChange")]
-		override public function get face() : *
-		{
-			if ( _face == null )
-			{
-				_face = IoCHelper.resolve( IImageAdapter, this );
-				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "face", null, _face ) );
-			}
-
-			return _face;
-		}
+		outlet var adapter : IImageAdapter;
 
 		public function get texture() : *
 		{
-			return _face == null ? null : IImageAdapter( _face ).component_texture;
+			return adapter ? adapter.component_texture : null;
 		}
 
 		[Bindable]
@@ -37,10 +29,15 @@ package ru.trylogic.gui.components.image
 				return;
 			}
 
-			IImageAdapter( face ).component_texture = value;
+			adapter.component_texture = value;
 
 			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", 0, face.width ) );
 			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", 0, face.height ) );
+		}
+
+		public function Image()
+		{
+			skinClass ||= ImageSkin;
 		}
 	}
 }
