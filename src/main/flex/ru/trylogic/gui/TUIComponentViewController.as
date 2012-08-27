@@ -147,6 +147,11 @@ package ru.trylogic.gui
 			return _viewInstance;
 		}
 
+		public function get skinClass() : Class
+		{
+			return _skinClass;
+		}
+
 		public function set skinClass( value : Class ) : void
 		{
 			if ( _skinClass == value )
