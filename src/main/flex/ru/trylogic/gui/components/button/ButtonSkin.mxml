@@ -10,16 +10,16 @@
 	</fx:Metadata>
 
 	<skins:states>
-		<s:State id="upState" name="up"/>
-		<s:State id="downState" name="down"/>
-		<s:State id="disabledState" name="disabled"/>
+		<s:State id="upState" name="up" />
+		<s:State id="downState" name="down" />
+		<s:State id="disabledState" name="disabled" />
 	</skins:states>
 
 	<containers:ContainerBase>
 		<image:Image texture.up="{hostComponent.skinStyle.upTexture}"
 					 texture.down="{hostComponent.skinStyle.downTexture || hostComponent.skinStyle.upTexture}"
-					 texture.disabled="{hostComponent.skinStyle.disabledTexture || hostComponent.skinStyle.upTexture}"/>
+					 texture.disabled="{hostComponent.skinStyle.disabledTexture || hostComponent.skinStyle.upTexture}" />
 
-		<textfield:TextField text="{hostComponent.text}"/>
+		<textfield:TextField id="label" text="{hostComponent.text}" />
 	</containers:ContainerBase>
 </skins:Skin>

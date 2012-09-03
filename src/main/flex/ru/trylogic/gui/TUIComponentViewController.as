@@ -141,9 +141,9 @@ package ru.trylogic.gui
 		{
 			if ( _viewInstance == null )
 			{
-				_viewInstance = new _skinClass();
-				_viewInstance['hostComponent'] = this;
-				initWithView( _viewInstance );
+				var viewInstance : IView = new _skinClass();
+				viewInstance['hostComponent'] = this;
+				initWithView( viewInstance );
 			}
 			return _viewInstance;
 		}
@@ -203,6 +203,39 @@ package ru.trylogic.gui
 		public function hasState( stateName : String ) : Boolean
 		{
 			return view.hasState( stateName );
+		}
+
+		protected function get skinParts() : Object
+		{
+			return null;
+		}
+
+		override viewControllerInternal function installView() : void
+		{
+			super.installView();
+
+			if ( _viewInstance )
+			{
+				for ( var skinPart : * in skinParts )
+				{
+					if ( skinParts[skinPart] == false && !Object( _viewInstance ).hasOwnProperty( skinPart ) )
+					{
+						continue;
+					}
+
+					this[skinPart] = _viewInstance[skinPart];
+				}
+			}
+		}
+
+		override viewControllerInternal function uninstallView() : void
+		{
+			super.uninstallView();
+
+			for ( var skinPart : * in skinParts )
+			{
+				this[skinPart] = null;
+			}
 		}
 	}
 }

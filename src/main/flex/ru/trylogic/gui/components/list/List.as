@@ -7,13 +7,11 @@ package ru.trylogic.gui.components.list
 	import mx.events.PropertyChangeEvent;
 
 	import ru.trylogic.gui.TUIComponentViewController;
-
 	import ru.trylogic.gui.containers.ContainerBase;
 	import ru.trylogic.gui.containers.layouts.ILayout;
 	import ru.trylogic.gui.dataProviders.IListDataProvider;
 
 	import tl.view.IView;
-	import tl.viewController.ViewController;
 	import tl.viewController.outlet;
 
 	use namespace outlet;
@@ -23,7 +21,8 @@ package ru.trylogic.gui.components.list
 
 		private const pool : Array = [];
 
-		outlet var itemsContainer : ContainerBase;
+		[SkinPart(required="true")]
+		public var itemsContainer : ContainerBase;
 
 		[Bindable]
 		public var layout : ILayout;

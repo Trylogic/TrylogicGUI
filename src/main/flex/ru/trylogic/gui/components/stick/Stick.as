@@ -1,4 +1,4 @@
-	package ru.trylogic.gui.components.stick
+package ru.trylogic.gui.components.stick
 {
 
 	import flash.display.Stage;
@@ -23,11 +23,14 @@
 		[Bindable]
 		public var delegate : Function;
 
-		outlet var stickButton : Button;
+		[SkinPart(required="true")]
+		public var stickButton : Button;
 
-		outlet var controls : ContainerBase;
+		[SkinPart(required="true")]
+		public var controls : ContainerBase;
 
-		outlet var moveGesture : MoveGesture;
+		[SkinPart(required="true")]
+		public var moveGesture : MoveGesture;
 
 		public static const STICK_SIZE : int = 100;
 

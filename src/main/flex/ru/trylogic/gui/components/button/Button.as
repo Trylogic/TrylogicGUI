@@ -28,12 +28,6 @@ package ru.trylogic.gui.components.button
 		[Bindable]
 		public var skinStyle : ButtonSkinStyle = new DefaultButtonSkinStyle();
 
-		outlet var upState : State;
-
-		outlet var downState : State;
-
-		outlet var disabledState : State;
-
 		protected var tapGesture : TapGesture;
 
 		[Bindable]
@@ -41,17 +35,17 @@ package ru.trylogic.gui.components.button
 		{
 			if ( value )
 			{
-				view.currentState = disabledState.name;
+				view.currentState = "disabled";
 			}
-			else if ( view.currentState == disabledState.name )
+			else if ( disabled )
 			{
-				view.currentState = upState.name;
+				view.currentState = "up";
 			}
 		}
 
 		public function get disabled() : Boolean
 		{
-			return view.currentState == disabledState.name;
+			return view.currentState == "disabled";
 		}
 
 		public function Button()
@@ -71,39 +65,38 @@ package ru.trylogic.gui.components.button
 			tapGesture.addEventListener( GestureEvent.POSSIBLE, tapGesture_onPossible, false, 0, true );
 			tapGesture.addEventListener( GestureEvent.RECOGNIZED, tapGesture_onRecognized, false, 0, true );
 			tapGesture.addEventListener( GestureEvent.FAILED, tapGesture_onFailed, false, 0, true );
-			tapGesture.addEventListener( GestureEvent.CANCELED, tapGesture_onFailed, false, 0, true );
 		}
 
 		protected function tapGesture_onPossible( event : GestureEvent ) : void
 		{
-			if ( view.currentState == disabledState.name )
+			if ( disabled )
 			{
 				return;
 			}
 
-			view.currentState = downState.name;
+			view.currentState = "down";
 			dispatchEvent( event );
 		}
 
 		protected function tapGesture_onRecognized( event : GestureEvent ) : void
 		{
-			if ( view.currentState == disabledState.name )
+			if ( disabled )
 			{
 				return;
 			}
 
-			view.currentState = upState.name;
+			view.currentState = "up";
 			dispatchEvent( TAP_EVENT );
 		}
 
 		protected function tapGesture_onFailed( event : GestureEvent ) : void
 		{
-			if ( view.currentState == disabledState.name )
+			if ( disabled )
 			{
 				return;
 			}
 
-			view.currentState = upState.name;
+			view.currentState = "up";
 			dispatchEvent( event );
 		}
 	}

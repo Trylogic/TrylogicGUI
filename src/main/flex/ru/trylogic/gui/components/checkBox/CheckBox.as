@@ -3,40 +3,17 @@ package ru.trylogic.gui.components.checkBox
 
 	import flash.events.Event;
 
-	import mx.events.PropertyChangeEvent;
-	import mx.events.PropertyChangeEventKind;
-
 	import mx.states.State;
 
 	import ru.trylogic.gui.TUIComponentViewController;
 	import ru.trylogic.gui.components.button.Button;
-	import ru.trylogic.gui.components.button.ButtonSkinStyle;
 
 	import tl.viewController.outlet;
 
-	/*
- смотри, что надо сделать:
-
- 1) делаешь компонент (Checkbox extends TUIComponentViewController)
- 2) у него свойства: label : String , checked : Boolean = false
- 3) должен диспатчить событие changed
- в скине у тебя должны быть:
- 2 кнопки (checkedButton и uncheckedButton) и TextField
- 2 состояния (checked, unhecked)
- в контроллере по тапу на кнопке переключаешь состояние
-
- а, да
-
- в CheckboxSkinStyle должны быть 2 свойства типа ButtonSkinStyle: checkedButtonSkinStyle и uncheckedButtonSkinStyle
-
- короче, смотри) делаем одну единственную кнопку, в ней делаем
- skinStyle.checked="{hostComponent.skinStyle.checkedSkinStyle}"
- skinStyle.unchecked="{hostComponent.skinStyle.uncheckedSkinStyle}", во
-
-*/
-
 	use namespace outlet;
 
+	[SkinState("checked")]
+	[SkinState("unchecked")]
 	public class CheckBox extends TUIComponentViewController
 	{
 		public static const CHANGED_EVENT : Event = new Event( "changed" );
@@ -47,17 +24,14 @@ package ru.trylogic.gui.components.checkBox
 		[Bindable]
 		public var skinStyle : CheckBoxSkinStyle = null;//***
 
-		outlet var checkedState : State;
-
-		outlet var uncheckedState : State;
-
-		outlet var checkButton : Button;
+		[SkinPart(required="true")]
+		public var checkButton : Button;
 
 		private var _checked : Boolean = false;
 
 		override lifecycle function viewLoaded() : void
 		{
-			checkButton.addEventListener(Button.TAP_EVENT.type, onCheckButtonTap);
+			checkButton.addEventListener( Button.TAP_EVENT.type, onCheckButtonTap );
 		}
 
 		public function CheckBox() : void
@@ -66,13 +40,13 @@ package ru.trylogic.gui.components.checkBox
 		}
 
 		[Bindable]
-		public function set checked(value : Boolean) : void
+		public function set checked( value : Boolean ) : void
 		{
 			var oldValue : Boolean = _checked;
-			if (oldValue != value)
+			if ( oldValue != value )
 			{
 				_checked = value;
-				view.currentState = checked ? checkedState.name : uncheckedState.name;
+				view.currentState = checked ? "checked" : "unchecked";
 				dispatchEvent( CHANGED_EVENT );
 			}
 		}
