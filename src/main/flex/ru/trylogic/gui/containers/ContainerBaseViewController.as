@@ -10,8 +10,6 @@ package ru.trylogic.gui.containers
 	import flash.display.Stage;
 	import flash.events.Event;
 
-	import ru.trylogic.gui.TUIComponentViewController;
-
 	import tl.ioc.IoCHelper;
 	import tl.viewController.ViewController;
 
