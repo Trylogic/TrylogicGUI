@@ -6,6 +6,8 @@ package ru.trylogic.gui.containers
 
 	import mx.events.PropertyChangeEvent;
 
+	import ru.trylogic.gui.containers.layouts.BasicLayout;
+
 	import ru.trylogic.gui.containers.layouts.ILayout;
 
 	import tl.ioc.IoCHelper;
@@ -14,13 +16,12 @@ package ru.trylogic.gui.containers
 
 	public class ContainerBase extends ViewContainer
 	{
-
 		[Inject]
-		protected const stage : Stage = IoCHelper.resolve(Stage, this);
+		protected const stage : Stage = IoCHelper.resolve( Stage, this );
 
 		protected var dirty : Boolean = false;
 
-		private var _layout : ILayout;
+		protected var _layout : ILayout;
 
 		public function get isDirty() : Boolean
 		{
@@ -32,28 +33,24 @@ package ru.trylogic.gui.containers
 			return _layout;
 		}
 
-		[Bindable(event="propertyChange")]
+		//[Bindable]
 		public function set layout( value : ILayout ) : void
 		{
-			if(value == _layout)
+			if ( value == _layout )
 			{
 				return;
 			}
 
-			var oldLayout : ILayout = _layout;
-			if ( oldLayout )
-			{
-				oldLayout.storeView( null );
-			}
-
-			_layout = value;
-
 			if ( _layout )
 			{
-				_layout.storeView( this );
+				_layout.storeView( null );
 			}
 
-			invalidateProperty("layout", value);
+			_layout = value || new BasicLayout();
+
+			_layout.storeView( this );
+
+			invalidateLayout();
 		}
 
 		public function get x() : Number
@@ -61,16 +58,10 @@ package ru.trylogic.gui.containers
 			return face.x;
 		}
 
-		[Bindable(event="propertyChange")]
+		[Bindable]
 		public function set x( value : Number ) : void
 		{
-			if(value == face.x)
-			{
-				return;
-			}
-
 			face.x = value;
-			invalidateProperty("x", value);
 		}
 
 		public function get y() : Number
@@ -78,48 +69,22 @@ package ru.trylogic.gui.containers
 			return face.y;
 		}
 
-		[Bindable(event="propertyChange")]
+		[Bindable]
 		public function set y( value : Number ) : void
 		{
-			if(value == face.y)
-			{
-				return;
-			}
 			face.y = value;
-			invalidateProperty("y", value);
 		}
 
+		[Bindable(event="propertyChange")]
 		public function get width() : Number
 		{
 			return face.width;
 		}
 
 		[Bindable(event="propertyChange")]
-		public function set width( value : Number ) : void
-		{
-			if(value == face.width)
-			{
-				return;
-			}
-
-			face.width = value;
-			invalidateProperty("width", value);
-		}
-
 		public function get height() : Number
 		{
 			return face.height;
-		}
-
-		[Bindable(event="propertyChange")]
-		public function set height( value : Number ) : void
-		{
-			if(value == face.height)
-			{
-				return;
-			}
-			face.height = value;
-			invalidateProperty("height", value);
 		}
 
 		public function get scaleX() : Number
@@ -127,15 +92,10 @@ package ru.trylogic.gui.containers
 			return face.scaleX;
 		}
 
-		[Bindable(event="propertyChange")]
+		[Bindable]
 		public function set scaleX( value : Number ) : void
 		{
-			if(value == face.scaleX)
-			{
-				return;
-			}
 			face.scaleX = value;
-			invalidateProperty("scaleX", value);
 		}
 
 		public function get scaleY() : Number
@@ -143,15 +103,10 @@ package ru.trylogic.gui.containers
 			return face.scaleY;
 		}
 
-		[Bindable(event="propertyChange")]
+		[Bindable]
 		public function set scaleY( value : Number ) : void
 		{
-			if(value == face.scaleY)
-			{
-				return;
-			}
 			face.scaleY = value;
-			invalidateProperty("scaleY", value);
 		}
 
 		public function get rotation() : Number
@@ -159,15 +114,10 @@ package ru.trylogic.gui.containers
 			return face.rotation;
 		}
 
-		[Bindable(event="propertyChange")]
+		[Bindable]
 		public function set rotation( value : Number ) : void
 		{
-			if(value == face.rotation)
-			{
-				return;
-			}
 			face.rotation = value;
-			invalidateProperty("rotation", value);
 		}
 
 		public function get alpha() : Number
@@ -175,15 +125,10 @@ package ru.trylogic.gui.containers
 			return face.alpha;
 		}
 
-		[Bindable(event="propertyChange")]
+		[Bindable]
 		public function set alpha( value : Number ) : void
 		{
-			if(value == face.alpha)
-			{
-				return;
-			}
 			face.alpha = value;
-			invalidateProperty("alpha", value);
 		}
 
 		public function get visible() : Boolean
@@ -191,91 +136,59 @@ package ru.trylogic.gui.containers
 			return face.visible;
 		}
 
-		[Bindable(event="propertyChange")]
+		[Bindable]
 		public function set visible( value : Boolean ) : void
 		{
-			if(value == face.visible)
-			{
-				return;
-			}
 			face.visible = value;
-			invalidateProperty("visible", value);
-		}
-
-		public function get name() : String
-		{
-			return face.name;
-		}
-
-		[Bindable(event="propertyChange")]
-		public function set name( value : String ) : void
-		{
-			if(value == face.name)
-			{
-				return;
-			}
-			face.name = value;
-			invalidateProperty("name", value);
 		}
 
 		public function ContainerBase()
 		{
-			controllerClass = ContainerBaseViewController;
 		}
 
-		override public function set subViews(value : Vector.<IView>) : void
+		override public function set subViews( value : Vector.<IView> ) : void
 		{
 			super.subViews = value;
 
-			invalidateProperty("subViews", value);
+			invalidateLayout();
 		}
 
-		public function invalidate() : void
+		override public function addView( element : IView ) : void
 		{
-			if(dirty)
-			{
-				return;
-			}
-
-			trace("invalidate " + this + " " + layout);
-			dirty = true;
-			stage.invalidate();
+			super.addView( element );
+			element.addEventListener( "boundsChanged", invalidateLayout );
 		}
 
-		public function validate() : void
+		override public function removeView( element : IView ) : void
 		{
-			if(!dirty)
+			element.removeEventListener( "boundsChanged", invalidateLayout );
+			super.removeView( element );
+		}
+
+		protected function invalidateLayout( ...args ) : void
+		{
+			trace( "invalidateLayout", _layout );
+			if ( _layout != null )
 			{
-				return;
-			}
-
-			trace("validate " + this + " " + layout);
-
-			var oldWidth : Number = width;
-			var oldHeight : Number = height;
-
-			if(_layout)
-			{
+				var oldWidth : Number = width;
+				var oldHeight : Number = height;
 				_layout.invalidateLayout();
-			}
-			dirty = false;
 
-			if(oldWidth != width)
-			{
-				dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "width", oldWidth, width));
-			}
+				if ( oldWidth != width || oldHeight != height )
+				{
+					dispatchEvent( new Event( "boundsChanged" ) );
+				}
 
-			if(oldHeight != height)
-			{
-				dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "height", oldHeight, height));
-			}
-		}
+				if ( oldWidth != width )
+				{
+					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
+				}
 
-		protected function invalidateProperty(prop : String, value : *) : void
-		{
-			trace("invalidateProperty [" + prop + "] on " + this + " withValue: " + value);
-			invalidate();
-			dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, prop, null, value));
+				if ( oldHeight != height )
+				{
+					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
+				}
+			}
 		}
 	}
 }

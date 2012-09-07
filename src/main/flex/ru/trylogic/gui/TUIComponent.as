@@ -1,10 +1,21 @@
 package ru.trylogic.gui
 {
 
+	import flash.display.Stage;
+	import flash.events.Event;
+
+	import mx.events.PropertyChangeEvent;
+
+	import tl.ioc.IoCHelper;
+
 	import tl.view.AbstractView;
 
 	public class TUIComponent extends AbstractView
 	{
+		private static const boundsChangedEvent : Event = new Event( "boundsChanged" );
+		private static const stage : Stage = IoCHelper.resolve( Stage, TUIComponentViewController );
+
+		protected var boundsAreDirty : Boolean = false;
 
 		public function get x() : Number
 		{
@@ -105,19 +116,53 @@ package ru.trylogic.gui
 			face.visible = value;
 		}
 
-		public function get name() : String
-		{
-			return face.name;
-		}
-
-		[Bindable]
-		public function set name( value : String ) : void
-		{
-			face.name = value;
-		}
-
 		public function TUIComponent()
 		{
+			stage.addEventListener( Event.RENDER, stage_renderHandler, false, 0, true );
+		}
+
+		override public function dispatchEvent( event : Event ) : Boolean
+		{
+			if ( event is PropertyChangeEvent && isPropertyAffectingAtBouns( (event as PropertyChangeEvent).property as String ) )
+			{
+				boundsAreDirty = true;
+				stage.invalidate();
+			}
+
+			return super.dispatchEvent( event );
+		}
+
+		protected function isPropertyAffectingAtBouns( propName : String ) : Boolean
+		{
+			switch ( propName )
+			{
+				case "width":
+				case "height":
+				case "x":
+				case "y":
+				case "texture":
+				case "skinStyle":
+				{
+					return true;
+				}
+					break;
+			}
+
+			return false;
+		}
+
+		protected function stage_renderHandler( event : Event ) : void
+		{
+			if ( !boundsAreDirty )
+			{
+				return;
+			}
+			trace( "TUIC render" );
+
+			boundsAreDirty = false;
+
+			dispatchEvent( boundsChangedEvent );
+
 		}
 	}
 }

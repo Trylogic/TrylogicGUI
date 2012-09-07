@@ -19,11 +19,7 @@ package ru.trylogic.gui.components.list
 	[Event(name="itemSelected")]
 	public class List extends TUIComponentViewController
 	{
-
 		private const pool : Array = [];
-
-		[SkinPart(required="true")]
-		public var itemsContainer : ContainerBase;
 
 		[Bindable]
 		public var layout : ILayout;
@@ -34,6 +30,28 @@ package ru.trylogic.gui.components.list
 		protected var _itemsPerPage : uint = 10;
 		protected var _currentPage : uint = 0;
 		protected var _dataProvider : IListDataProvider;
+		protected var _itemsContainer : ContainerBase;
+
+		public function get itemsContainer() : ContainerBase
+		{
+			return _itemsContainer;
+		}
+
+		[SkinPart(required="true")]
+		public function set itemsContainer( value : ContainerBase ) : void
+		{
+			if ( _itemsContainer )
+			{
+				_itemsContainer.removeEventListener( "boundsChanged", dispatchEvent );
+			}
+
+			_itemsContainer = value;
+
+			if ( _itemsContainer )
+			{
+				_itemsContainer.addEventListener( "boundsChanged", dispatchEvent, false, 0, true );
+			}
+		}
 
 		[Bindable]
 		public function set itemsPerPage( value : uint ) : void
@@ -94,12 +112,12 @@ package ru.trylogic.gui.components.list
 
 		protected function onDataChanged( event : Event = null ) : void
 		{
-			if ( itemsContainer == null )
+			if ( _itemsContainer == null )
 			{
 				return;
 			}
 
-			var subViews : Vector.<IView> = itemsContainer.subViews;
+			var subViews : Vector.<IView> = _itemsContainer.subViews;
 
 			var subView : IView;
 			while ( subView = subViews.shift() )
@@ -109,18 +127,18 @@ package ru.trylogic.gui.components.list
 
 			if ( _dataProvider == null )
 			{
-				itemsContainer.subViews = null;
+				_itemsContainer.subViews = null;
 				return;
 			}
 
 			for ( var i : uint = _currentPage * _itemsPerPage; i < Math.min( _currentPage * _itemsPerPage + _itemsPerPage, _dataProvider.length ); i++ )
 			{
 				var itemRenderer : ItemRenderer = pool.length > 0 ? pool.pop() : itemRenderer.newInstance();
-				itemRenderer.init( i, dataProvider );
+				itemRenderer.initInternal( i, dataProvider );
 				subViews.push( itemRenderer );
 			}
 
-			itemsContainer.subViews = subViews;
+			_itemsContainer.subViews = subViews;
 
 			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", null, width ) );
 			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", null, height ) );
