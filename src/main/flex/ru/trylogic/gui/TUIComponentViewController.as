@@ -216,7 +216,7 @@ package ru.trylogic.gui
 
 			if ( _viewInstance )
 			{
-				for ( var skinPart : * in skinParts )
+				for ( var skinPart : String in skinParts )
 				{
 					if ( skinParts[skinPart] == false && !Object( _viewInstance ).hasOwnProperty( skinPart ) )
 					{
@@ -232,7 +232,7 @@ package ru.trylogic.gui
 		{
 			super.uninstallView();
 
-			for ( var skinPart : * in skinParts )
+			for ( var skinPart : String in skinParts )
 			{
 				this[skinPart] = null;
 			}

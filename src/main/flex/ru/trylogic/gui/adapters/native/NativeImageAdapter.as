@@ -3,6 +3,7 @@ package ru.trylogic.gui.adapters.native
 
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.PixelSnapping;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
@@ -15,6 +16,7 @@ package ru.trylogic.gui.adapters.native
 
 		public function NativeImageAdapter()
 		{
+			pixelSnapping = PixelSnapping.NEVER;
 		}
 
 		public function set component_texture( value : * ) : void
@@ -31,11 +33,11 @@ package ru.trylogic.gui.adapters.native
 			{
 				bitmapData = ( value as BitmapData );
 			}
-			else if (value is TextureFrame )
+			else if ( value is TextureFrame )
 			{
 				var frame : TextureFrame = value as TextureFrame;
-				bitmapData = new BitmapData(frame.width, frame.height, true, 0);
-				bitmapData.copyPixels(frame.atlasBD, new Rectangle(frame.x,  frame.y,  frame.width, frame.height), new Point(0, 0));
+				bitmapData = new BitmapData( frame.width, frame.height, true, 0 );
+				bitmapData.copyPixels( frame.atlasBD, new Rectangle( frame.x, frame.y, frame.width, frame.height ), new Point( 0, 0 ) );
 			}
 			else
 			{

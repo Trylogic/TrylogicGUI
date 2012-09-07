@@ -122,8 +122,8 @@ package ru.trylogic.gui.components.list
 
 			itemsContainer.subViews = subViews;
 
-			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", null, face.width ) );
-			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", null, face.height ) );
+			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", null, width ) );
+			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", null, height ) );
 		}
 	}
 }
