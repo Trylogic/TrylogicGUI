@@ -2,6 +2,7 @@ package ru.trylogic.gui.components.list
 {
 
 	import ru.trylogic.gui.containers.ContainerBase;
+	import ru.trylogic.gui.dataProviders.IListDataProvider;
 
 	public class ItemRenderer extends ContainerBase
 	{
@@ -9,8 +10,9 @@ package ru.trylogic.gui.components.list
 		{
 		}
 
-		public function set data( value : * ) : void
+		public function init( index : uint, dataProvider : IListDataProvider ) : void
 		{
+
 		}
 	}
 }

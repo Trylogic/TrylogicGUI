@@ -6,8 +6,6 @@ package ru.trylogic.gui.dataProviders
 	import mx.events.PropertyChangeEvent;
 	import mx.events.PropertyChangeEventKind;
 
-	import ru.trylogic.gui.dataProviders.IListDataProvider;
-
 	[Event(name="changed")]
 	[DefaultProperty("data")]
 	public class ArrayDataProvider extends EventDispatcher implements IListDataProvider
@@ -40,18 +38,18 @@ package ru.trylogic.gui.dataProviders
 		{
 		}
 
-		public function getItemAt( index : int ) : *
+		public function getItemAt( index : int ) : Object
 		{
 			return _data[index];
 		}
 
-		public function setItemAt( index : int, item : * ) : void
+		public function setItemAt( index : int, item : Object ) : void
 		{
 			_data[index] = item;
 			invalidate();
 		}
 
-		public function removeItemAt( index : int ) : *
+		public function removeItemAt( index : int ) : Object
 		{
 			var item : * = _data[index];
 			_data.splice( index, 1 );
@@ -65,7 +63,7 @@ package ru.trylogic.gui.dataProviders
 			invalidate();
 		}
 
-		public function addItem( item : * ) : uint
+		public function addItem( item : Object ) : uint
 		{
 			var result : uint = _data.push( item );
 			invalidate();

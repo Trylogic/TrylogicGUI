@@ -16,6 +16,7 @@ package ru.trylogic.gui.components.list
 
 	use namespace outlet;
 
+	[Event(name="itemSelected")]
 	public class List extends TUIComponentViewController
 	{
 
@@ -91,7 +92,7 @@ package ru.trylogic.gui.components.list
 			skinClass = ListSkin;
 		}
 
-		private function onDataChanged( event : Event = null ) : void
+		protected function onDataChanged( event : Event = null ) : void
 		{
 			if ( itemsContainer == null )
 			{
@@ -103,7 +104,6 @@ package ru.trylogic.gui.components.list
 			var subView : IView;
 			while ( subView = subViews.shift() )
 			{
-				//itemsContainer.removeView( subView );
 				pool.unshift( subView );
 			}
 
@@ -116,7 +116,7 @@ package ru.trylogic.gui.components.list
 			for ( var i : uint = _currentPage * _itemsPerPage; i < Math.min( _currentPage * _itemsPerPage + _itemsPerPage, _dataProvider.length ); i++ )
 			{
 				var itemRenderer : ItemRenderer = pool.length > 0 ? pool.pop() : itemRenderer.newInstance();
-				itemRenderer.data = _dataProvider.getItemAt( i );
+				itemRenderer.init( i, dataProvider );
 				subViews.push( itemRenderer );
 			}
 

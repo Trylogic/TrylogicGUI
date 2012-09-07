@@ -1,20 +1,19 @@
 package ru.trylogic.gui.dataProviders
 {
 
-	import ru.trylogic.gui.dataProviders.IDataProvider;
 
 	[Event(name="changed")]
 	public interface IListDataProvider extends IDataProvider
 	{
 		function get length() : uint;
 
-		function addItem(item : *) : uint;
+		function addItem( item : Object ) : uint;
 
-		function getItemAt(index : int) : *;
+		function getItemAt( index : int ) : Object;
 
-		function setItemAt(index : int, item : *) : void;
+		function setItemAt( index : int, item : Object ) : void;
 
-		function removeItemAt(index : int) : *;
+		function removeItemAt( index : int ) : Object;
 
 		function removeAllItems() : void;
 	}
