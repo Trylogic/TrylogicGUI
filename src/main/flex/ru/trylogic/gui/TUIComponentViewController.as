@@ -219,6 +219,7 @@ package ru.trylogic.gui
 
 			if ( _viewInstance )
 			{
+				_viewInstance.addEventListener( "boundsChanged", dispatchEvent, false, 0, true );
 				for ( var skinPart : String in skinParts )
 				{
 					if ( skinParts[skinPart] == false && !Object( _viewInstance ).hasOwnProperty( skinPart ) )
@@ -234,6 +235,11 @@ package ru.trylogic.gui
 		override viewControllerInternal function uninstallView() : void
 		{
 			super.uninstallView();
+
+			if ( _viewInstance )
+			{
+				_viewInstance.removeEventListener( "boundsChanged", dispatchEvent );
+			}
 
 			for ( var skinPart : String in skinParts )
 			{
@@ -256,10 +262,11 @@ package ru.trylogic.gui
 		{
 			switch ( propName )
 			{
-				case "width":
-				case "height":
 				case "x":
 				case "y":
+				case "scaleX":
+				case "scaleY":
+				case "visible":
 				case "texture":
 				case "skinStyle":
 				{
@@ -277,8 +284,6 @@ package ru.trylogic.gui
 			{
 				return;
 			}
-
-			trace( "TUICVC render" );
 
 			boundsAreDirty = false;
 

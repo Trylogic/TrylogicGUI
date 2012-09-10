@@ -55,6 +55,7 @@ package ru.trylogic.gui.components.button
 
 		override lifecycle function viewLoaded() : void
 		{
+			super.lifecycle::viewLoaded();
 			if ( tapGesture )
 			{
 				tapGesture.dispose();

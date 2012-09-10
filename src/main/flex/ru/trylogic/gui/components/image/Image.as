@@ -10,19 +10,6 @@ package ru.trylogic.gui.components.image
 
 	public class Image extends TUIComponent
 	{
-
-		[Bindable(event="propertyChange")]
-		override public function get face() : *
-		{
-			if ( _face == null )
-			{
-				_face = IoCHelper.resolve( IImageAdapter, this );
-				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "face", null, _face ) );
-			}
-
-			return _face;
-		}
-
 		public function get texture() : *
 		{
 			return _face == null ? null : IImageAdapter( _face ).component_texture;
@@ -39,8 +26,18 @@ package ru.trylogic.gui.components.image
 
 			IImageAdapter( face ).component_texture = value;
 
-			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", 0, face.width ) );
-			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", 0, face.height ) );
+			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", 0, width ) );
+			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", 0, height ) );
+		}
+
+		override protected function lazyCreateFace() : *
+		{
+			return IoCHelper.resolve( IImageAdapter, this );
+		}
+
+		override protected function isPropertyAffectingAtBouns( propName : String ) : Boolean
+		{
+			return propName == "texture" || super.isPropertyAffectingAtBouns( propName );
 		}
 	}
 }

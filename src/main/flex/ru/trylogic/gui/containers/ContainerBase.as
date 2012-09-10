@@ -189,6 +189,10 @@ package ru.trylogic.gui.containers
 					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
 				}
 			}
+			else
+			{
+				dispatchEvent( new Event( "boundsChanged" ) );
+			}
 		}
 	}
 }

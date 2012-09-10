@@ -138,10 +138,11 @@ package ru.trylogic.gui
 			{
 				case "width":
 				case "height":
+				case "visible":
 				case "x":
 				case "y":
-				case "texture":
-				case "skinStyle":
+				case "scaleX":
+				case "scaleY":
 				{
 					return true;
 				}
@@ -157,7 +158,6 @@ package ru.trylogic.gui
 			{
 				return;
 			}
-			trace( "TUIC render" );
 
 			boundsAreDirty = false;
 

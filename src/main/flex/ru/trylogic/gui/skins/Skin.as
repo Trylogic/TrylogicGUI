@@ -54,7 +54,7 @@ package ru.trylogic.gui.skins
 		{
 			if ( _view )
 			{
-				_view.removeEventListener( PropertyChangeEvent.PROPERTY_CHANGE, dispatchEvent );
+				_view.removeEventListener( "boundsChanged", dispatchEvent );
 				_view.controller.removeViewFromContainer( face );
 			}
 
@@ -63,7 +63,7 @@ package ru.trylogic.gui.skins
 			if ( _view )
 			{
 				_view.controller.addViewToContainer( face );
-				_view.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, dispatchEvent, false, 0, true );
+				_view.addEventListener( "boundsChanged", dispatchEvent, false, 0, true );
 			}
 		}
 	}
