@@ -6,6 +6,8 @@ package ru.trylogic.gui
 
 	import mx.events.PropertyChangeEvent;
 
+	import ru.trylogic.unitouch.UniTouch;
+
 	import tl.ioc.IoCHelper;
 
 	import tl.view.AbstractView;
@@ -14,6 +16,10 @@ package ru.trylogic.gui
 	{
 		private static const boundsChangedEvent : Event = new Event( "boundsChanged" );
 		private static const stage : Stage = IoCHelper.resolve( Stage, TUIComponentViewController );
+
+		{
+			UniTouch.stage = stage;
+		}
 
 		protected var boundsAreDirty : Boolean = false;
 

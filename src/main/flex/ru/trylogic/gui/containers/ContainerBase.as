@@ -9,6 +9,7 @@ package ru.trylogic.gui.containers
 	import ru.trylogic.gui.containers.layouts.BasicLayout;
 
 	import ru.trylogic.gui.containers.layouts.ILayout;
+	import ru.trylogic.unitouch.UniTouch;
 
 	import tl.ioc.IoCHelper;
 	import tl.view.IView;
@@ -17,7 +18,11 @@ package ru.trylogic.gui.containers
 	public class ContainerBase extends ViewContainer
 	{
 		[Inject]
-		protected const stage : Stage = IoCHelper.resolve( Stage, this );
+		protected static const stage : Stage = IoCHelper.resolve( Stage, ContainerBase );
+
+		{
+			UniTouch.stage = stage;
+		}
 
 		protected var dirty : Boolean = false;
 
@@ -167,9 +172,9 @@ package ru.trylogic.gui.containers
 
 		protected function invalidateLayout( ...args ) : void
 		{
-			trace( "invalidateLayout", _layout );
 			if ( _layout != null )
 			{
+				//trace( "invalidateLayout", _layout );
 				var oldWidth : Number = width;
 				var oldHeight : Number = height;
 				_layout.invalidateLayout();

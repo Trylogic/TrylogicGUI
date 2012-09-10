@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>ru.trylogic</groupId>
 			<artifactId>trylogic-framework</artifactId>
-			<version>[2.0.0-rc1-SNAPSHOT,]</version>
+			<version>[2.1.1-SNAPSHOT,]</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>
@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>ru.trylogic</groupId>
 			<artifactId>unitouch</artifactId>
-			<version>[0.1.6-SNAPSHOT, ]</version>
+			<version>[0.2.0-SNAPSHOT, ]</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>
