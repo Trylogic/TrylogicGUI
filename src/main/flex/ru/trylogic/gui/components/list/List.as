@@ -16,9 +16,10 @@ package ru.trylogic.gui.components.list
 
 	use namespace outlet;
 
-	[Event(name="itemSelected")]
+	[Event(name="itemSelected", type="ru.trylogic.gui.components.list.ListEvent")]
 	public class List extends TUIComponentViewController
 	{
+		private static const itemSelectedEvent : ListEvent = new ListEvent( ListEvent.ITEM_SELECTED );
 		private const pool : Array = [];
 
 		[Bindable]
@@ -120,28 +121,43 @@ package ru.trylogic.gui.components.list
 			var subViews : Vector.<IView> = _itemsContainer.subViews;
 
 			var subView : IView;
+			var itemRendererInstance : ItemRenderer;
 			while ( subView = subViews.shift() )
 			{
+				//subView.destroy();
 				pool.unshift( subView );
 			}
 
-			if ( _dataProvider == null )
+			if ( _dataProvider != null )
 			{
-				_itemsContainer.subViews = null;
-				return;
+				for ( var i : uint = _currentPage * _itemsPerPage; i < Math.min( _currentPage * _itemsPerPage + _itemsPerPage, _dataProvider.length ); i++ )
+				{
+					itemRendererInstance = (pool.length > 0 ? pool.pop() : itemRenderer.newInstance());
+					itemRendererInstance.initInternal( i, dataProvider, viewControllerInternal::onItemSelected );
+					subViews.push( itemRendererInstance );
+				}
 			}
 
-			for ( var i : uint = _currentPage * _itemsPerPage; i < Math.min( _currentPage * _itemsPerPage + _itemsPerPage, _dataProvider.length ); i++ )
-			{
-				var itemRenderer : ItemRenderer = pool.length > 0 ? pool.pop() : itemRenderer.newInstance();
-				itemRenderer.initInternal( i, dataProvider );
-				subViews.push( itemRenderer );
-			}
+			var oldWidth : Number = width;
+			var oldHeight : Number = height;
 
 			_itemsContainer.subViews = subViews;
 
-			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", null, width ) );
-			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", null, height ) );
+			if ( oldWidth != width )
+			{
+				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
+			}
+
+			if ( oldHeight != height )
+			{
+				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
+			}
+		}
+
+		viewControllerInternal function onItemSelected( itemRendererInstance : ItemRenderer ) : void
+		{
+			itemSelectedEvent.index = itemRendererInstance.index;
+			dispatchEvent( itemSelectedEvent );
 		}
 	}
 }
