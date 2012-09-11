@@ -8,7 +8,7 @@ package ru.trylogic.gui.components.list
 
 	import ru.trylogic.gui.TUIComponentViewController;
 	import ru.trylogic.gui.containers.ContainerBase;
-	import ru.trylogic.gui.containers.layouts.ILayout;
+	import ru.trylogic.gui.layouts.ILayout;
 	import ru.trylogic.gui.dataProviders.IListDataProvider;
 
 	import tl.view.IView;

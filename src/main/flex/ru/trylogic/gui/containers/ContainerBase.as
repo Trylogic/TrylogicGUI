@@ -6,9 +6,9 @@ package ru.trylogic.gui.containers
 
 	import mx.events.PropertyChangeEvent;
 
-	import ru.trylogic.gui.containers.layouts.BasicLayout;
+	import ru.trylogic.gui.layouts.BasicLayout;
 
-	import ru.trylogic.gui.containers.layouts.ILayout;
+	import ru.trylogic.gui.layouts.ILayout;
 	import ru.trylogic.unitouch.UniTouch;
 
 	import tl.ioc.IoCHelper;

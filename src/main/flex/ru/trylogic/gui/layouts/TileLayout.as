@@ -1,4 +1,4 @@
-package ru.trylogic.gui.containers.layouts
+package ru.trylogic.gui.layouts
 {
 
 	import tl.view.IView;
