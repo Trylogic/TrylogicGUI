@@ -34,8 +34,12 @@ package ru.trylogic.gui.dataProviders
 			return _data.length;
 		}
 
-		public function ArrayDataProvider()
+		public function ArrayDataProvider( data : Array = null )
 		{
+			if ( data )
+			{
+				this.data = data;
+			}
 		}
 
 		public function getItemAt( index : int ) : Object

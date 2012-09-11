@@ -41,6 +41,11 @@ package ru.trylogic.gui.components.list
 		[SkinPart(required="true")]
 		public function set itemsContainer( value : ContainerBase ) : void
 		{
+			if ( value == _itemsContainer )
+			{
+				return;
+			}
+
 			if ( _itemsContainer )
 			{
 				_itemsContainer.removeEventListener( "boundsChanged", dispatchEvent );
@@ -67,13 +72,13 @@ package ru.trylogic.gui.components.list
 		}
 
 		[Bindable]
-		public function set currentPage( value : uint ) : void
+		public function set currentPage( value : int ) : void
 		{
-			_currentPage = value;
+			_currentPage = Math.min( Math.max( 0, value ), _dataProvider ? _dataProvider.length / _itemsPerPage : 0 );
 			onDataChanged();
 		}
 
-		public function get currentPage() : uint
+		public function get currentPage() : int
 		{
 			return _currentPage;
 		}
@@ -120,12 +125,11 @@ package ru.trylogic.gui.components.list
 
 			var subViews : Vector.<IView> = _itemsContainer.subViews;
 
-			var subView : IView;
 			var itemRendererInstance : ItemRenderer;
-			while ( subView = subViews.shift() )
+			while ( itemRendererInstance = (subViews.shift() as ItemRenderer) )
 			{
-				//subView.destroy();
-				pool.unshift( subView );
+				itemRendererInstance.cleanInternal();
+				pool.unshift( itemRendererInstance );
 			}
 
 			if ( _dataProvider != null )
