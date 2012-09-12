@@ -4,10 +4,10 @@ package ru.trylogic.gui.components.image
 	import mx.events.PropertyChangeEvent;
 
 	import ru.trylogic.gui.adapters.IImageAdapter;
-
 	import ru.trylogic.gui.components.TrylogicComponent;
 
 	import tl.ioc.IoCHelper;
+	import tl.view.IDisplayObject;
 
 	public class Image extends TrylogicComponent
 	{
@@ -30,7 +30,7 @@ package ru.trylogic.gui.components.image
 			var oldWidth : Number = width;
 			var oldHeight : Number = height;
 
-			face.component_texture = value;
+			(face as IImageAdapter).component_texture = value;
 
 			if ( oldWidth != width )
 			{
@@ -43,7 +43,7 @@ package ru.trylogic.gui.components.image
 			}
 		}
 
-		override public function get face() : *
+		override public function get face() : IDisplayObject
 		{
 			_face ||= IoCHelper.resolve( IImageAdapter, this ) as IImageAdapter;
 			return _face;

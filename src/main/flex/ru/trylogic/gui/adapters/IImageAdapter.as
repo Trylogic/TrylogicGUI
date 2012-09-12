@@ -1,8 +1,10 @@
 package ru.trylogic.gui.adapters
 {
 
+	import tl.view.IDisplayObject;
 
-	public interface IImageAdapter
+
+	public interface IImageAdapter extends IDisplayObject
 	{
 		function set component_texture( value : * ) : void;
 

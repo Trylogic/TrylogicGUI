@@ -10,7 +10,7 @@ package ru.trylogic.gui.components
 	import ru.trylogic.unitouch.UniTouch;
 
 	import tl.ioc.IoCHelper;
-
+	import tl.view.IDisplayObject;
 	import tl.view.IView;
 	import tl.viewController.IVIewController;
 	import tl.viewController.ViewController;
@@ -31,7 +31,7 @@ package ru.trylogic.gui.components
 
 		use namespace viewControllerInternal;
 
-		public function get face() : *
+		public function get face() : IDisplayObject
 		{
 			return view.face;
 		}
@@ -100,17 +100,6 @@ package ru.trylogic.gui.components
 		public function set scaleY( value : Number ) : void
 		{
 			face.scaleY = value;
-		}
-
-		public function get rotation() : Number
-		{
-			return face.rotation;
-		}
-
-		[Bindable]
-		public function set rotation( value : Number ) : void
-		{
-			face.rotation = value;
 		}
 
 		public function get alpha() : Number

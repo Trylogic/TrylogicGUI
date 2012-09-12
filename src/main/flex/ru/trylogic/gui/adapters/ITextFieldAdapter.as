@@ -1,7 +1,9 @@
 package ru.trylogic.gui.adapters
 {
 
-	public interface ITextFieldAdapter
+	import tl.view.IDisplayObject;
+
+	public interface ITextFieldAdapter extends IDisplayObject
 	{
 		function set component_text( value : String ) : void;
 

@@ -114,17 +114,6 @@ package ru.trylogic.gui.containers
 			face.scaleY = value;
 		}
 
-		public function get rotation() : Number
-		{
-			return face.rotation;
-		}
-
-		[Bindable]
-		public function set rotation( value : Number ) : void
-		{
-			face.rotation = value;
-		}
-
 		public function get alpha() : Number
 		{
 			return face.alpha;
