@@ -1,12 +1,20 @@
 <?xml version="1.0"?>
-<skins:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
-			xmlns:skins="ru.trylogic.gui.skins.*"
-			xmlns:containers="ru.trylogic.gui.containers.*">
+<containers:ContainerBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+						  xmlns:containers="ru.trylogic.gui.containers.*">
+
+	<fx:Script>
+		<![CDATA[
+		public function get itemsContainer() : ContainerBase
+		{
+			return this;
+		}
+		]]>
+	</fx:Script>
 
 	<fx:Metadata>
 		[HostComponent("ru.trylogic.gui.components.list.List")]
 	</fx:Metadata>
 
-	<containers:ContainerBase id="itemsContainer" layout="{hostComponent.layout}"/>
+	<containers:layout>{hostComponent.layout}</containers:layout>
 
-</skins:Skin>
+</containers:ContainerBase>

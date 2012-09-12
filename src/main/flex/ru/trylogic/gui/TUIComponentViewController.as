@@ -10,6 +10,8 @@ package ru.trylogic.gui
 	import flash.display.Stage;
 	import flash.events.Event;
 
+	import mx.core.IStateClient2;
+
 	import mx.events.PropertyChangeEvent;
 
 	import ru.trylogic.unitouch.UniTouch;
@@ -29,6 +31,9 @@ package ru.trylogic.gui
 		{
 			UniTouch.stage = stage;
 		}
+
+		[Inject]
+		protected var _statesImpl : IStateClient2 = IoCHelper.resolve( IStateClient2, this );
 
 		protected var boundsAreDirty : Boolean = false;
 
@@ -172,38 +177,6 @@ package ru.trylogic.gui
 			return this;
 		}
 
-		public function get currentState() : String
-		{
-			return view.currentState;
-		}
-
-		public function set currentState( value : String ) : void
-		{
-			view.currentState = value;
-		}
-
-		[ArrayElementType("mx.states.State")]
-		public function get states() : Array
-		{
-			return view.states;
-		}
-
-		public function set states( value : Array ) : void
-		{
-			view.states = value;
-		}
-
-		[ArrayElementType("mx.states.Transition")]
-		public function get transitions() : Array
-		{
-			return view.transitions;
-		}
-
-		public function set transitions( value : Array ) : void
-		{
-			view.transitions = value;
-		}
-
 		protected function get skinParts() : Object
 		{
 			return null;
@@ -212,11 +185,6 @@ package ru.trylogic.gui
 		public function TUIComponentViewController()
 		{
 			stage.addEventListener( Event.RENDER, stage_renderHandler );
-		}
-
-		public function hasState( stateName : String ) : Boolean
-		{
-			return view.hasState( stateName );
 		}
 
 		override viewControllerInternal function installView() : void
@@ -295,6 +263,62 @@ package ru.trylogic.gui
 
 			dispatchEvent( boundsChangedEvent );
 
+		}
+
+		public function get currentState() : String
+		{
+			return _statesImpl.currentState;
+		}
+
+		[Bindable(event="propertyChange")]
+		public function set currentState( value : String ) : void
+		{
+			var oldValue : String = _statesImpl.currentState;
+			if ( value == oldValue )
+			{
+				return;
+			}
+
+			_statesImpl.currentState = value;
+
+			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "currentState", oldValue, value ) );
+		}
+
+		[ArrayElementType("mx.states.State")]
+		public function get states() : Array
+		{
+			return _statesImpl.states;
+		}
+
+		public function set states( value : Array ) : void
+		{
+			if ( value == _statesImpl.states )
+			{
+				return;
+			}
+
+			_statesImpl.states = value;
+		}
+
+		[ArrayElementType("mx.states.Transition")]
+		public function get transitions() : Array
+		{
+			return _statesImpl.transitions;
+		}
+
+		public function set transitions( value : Array ) : void
+		{
+			if ( value == _statesImpl.transitions )
+			{
+				return;
+			}
+
+			_statesImpl.transitions = value;
+		}
+
+		public function hasState( stateName : String ) : Boolean
+		{
+			return _statesImpl.hasState( stateName );
 		}
 	}
 }

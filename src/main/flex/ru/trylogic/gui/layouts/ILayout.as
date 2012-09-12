@@ -1,11 +1,11 @@
 package ru.trylogic.gui.layouts
 {
 
-	import tl.view.ViewContainer;
+	import ru.trylogic.gui.containers.ContainerBase;
 
 	public interface ILayout
 	{
-		function storeView( view : ViewContainer ) : void;
+		function storeView( view : ContainerBase ) : void;
 
 		function invalidateLayout() : void;
 	}

@@ -1,17 +1,19 @@
 package ru.trylogic.gui.layouts
 {
 
-	import tl.view.ViewContainer;
+	import ru.trylogic.gui.containers.ContainerBase;
+
+	import tl.adapters.IViewContainerAdapter;
 
 	public class BasicLayout implements ILayout
 	{
-		protected var view : ViewContainer;
+		protected var view : ContainerBase;
 
 		public function BasicLayout()
 		{
 		}
 
-		public function storeView( view : ViewContainer ) : void
+		public function storeView( view : ContainerBase ) : void
 		{
 			this.view = view;
 		}

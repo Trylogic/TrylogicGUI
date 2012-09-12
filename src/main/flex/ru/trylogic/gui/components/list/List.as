@@ -33,11 +33,6 @@ package ru.trylogic.gui.components.list
 		protected var _dataProvider : IListDataProvider;
 		protected var _itemsContainer : ContainerBase;
 
-		public function get itemsContainer() : ContainerBase
-		{
-			return _itemsContainer;
-		}
-
 		[SkinPart(required="true")]
 		public function set itemsContainer( value : ContainerBase ) : void
 		{
