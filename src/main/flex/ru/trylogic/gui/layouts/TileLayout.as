@@ -1,6 +1,7 @@
 package ru.trylogic.gui.layouts
 {
 
+	import tl.view.IDisplayObject;
 	import tl.view.IView;
 
 	public class TileLayout extends BasicLayout
@@ -65,7 +66,7 @@ package ru.trylogic.gui.layouts
 			var maxHeight : Number = 1;
 			for ( var i : uint = 0; i < subViews.length; i++ )
 			{
-				const face : * = subViews[i].face;
+				const face : IDisplayObject = subViews[i].face;
 				maxHeight = Math.max( face.height, maxHeight );
 
 				face.x = newX;

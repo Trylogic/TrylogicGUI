@@ -44,14 +44,14 @@ package ru.trylogic.gui.components.list
 
 			if ( _itemsContainer )
 			{
-				_itemsContainer.removeEventListener( "boundsChanged", dispatchEvent );
+				_itemsContainer.removeEventListener( boundsChangedEvent.type, invalidate );
 			}
 
 			_itemsContainer = value;
 
 			if ( _itemsContainer )
 			{
-				_itemsContainer.addEventListener( "boundsChanged", dispatchEvent, false, 0, true );
+				_itemsContainer.addEventListener( boundsChangedEvent.type, invalidate, false, 0, true );
 			}
 		}
 

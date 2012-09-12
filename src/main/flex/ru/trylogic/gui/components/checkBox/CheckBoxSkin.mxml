@@ -1,28 +1,17 @@
 <?xml version="1.0"?>
-<buttons:Button xmlns:fx="http://ns.adobe.com/mxml/2009"
-				xmlns:s="library://ns.adobe.com/flex/spark"
-				xmlns:buttons="ru.trylogic.gui.components.button.*">
-
-	<fx:Script>
-		<![CDATA[
-		public function get checkButton() : Button
-		{
-			return this;
-		}
-		]]>
-	</fx:Script>
-
-	<buttons:skinStyle.checked>{hostComponent.skinStyle.checkedButtonSkinStyle}</buttons:skinStyle.checked>
-	<buttons:skinStyle.unchecked>{hostComponent.skinStyle.uncheckedButtonSkinStyle}</buttons:skinStyle.unchecked>
-	<buttons:text>{hostComponent.label}</buttons:text>
+<containers:ContainerBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+						  xmlns:s="library://ns.adobe.com/flex/spark"
+						  xmlns:buttons="ru.trylogic.gui.components.button.*"
+						  xmlns:containers="ru.trylogic.gui.containers.*">
 
 	<fx:Metadata>
 		[HostComponent("ru.trylogic.gui.components.checkBox.CheckBox")]
 	</fx:Metadata>
 
-	<buttons:states>
+	<containers:states>
 		<s:State id="uncheckedState" name="unchecked"/>
 		<s:State id="checkedState" name="checked"/>
-	</buttons:states>
+	</containers:states>
 
-</buttons:Button>
+	<buttons:Button id="checkButton" skinStyle.checked="{hostComponent.skinStyle.checkedButtonSkinStyle}" skinStyle.unchecked="{hostComponent.skinStyle.uncheckedButtonSkinStyle}" text="{hostComponent.label}"/>
+</containers:ContainerBase>

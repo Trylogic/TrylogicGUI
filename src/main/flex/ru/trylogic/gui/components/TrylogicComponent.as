@@ -17,8 +17,8 @@ package ru.trylogic.gui.components
 
 	public class TrylogicComponent extends ViewController implements IView
 	{
-		private static const boundsChangedEvent : Event = new Event( "boundsChanged" );
-		private static const stage : Stage = IoCHelper.resolve( Stage, TrylogicComponent );
+		protected static const boundsChangedEvent : Event = new Event( "boundsChanged" );
+		protected static const stage : Stage = IoCHelper.resolve( Stage, TrylogicComponent );
 
 		{
 			UniTouch.stage = stage;
@@ -163,8 +163,7 @@ package ru.trylogic.gui.components
 		{
 			if ( event is PropertyChangeEvent && isPropertyAffectingAtBouns( (event as PropertyChangeEvent).property as String ) )
 			{
-				boundsAreDirty = true;
-				stage.invalidate();
+				invalidate();
 			}
 
 			return super.dispatchEvent( event );
@@ -178,8 +177,9 @@ package ru.trylogic.gui.components
 				case "y":
 				case "scaleX":
 				case "scaleY":
+				case "width":
+				case "height":
 				case "visible":
-				case "texture":
 				case "skinStyle":
 				{
 					return true;
@@ -188,6 +188,18 @@ package ru.trylogic.gui.components
 			}
 
 			return false;
+		}
+
+		protected function invalidate( e : Event = null ) : void
+		{
+			if ( boundsAreDirty )
+			{
+				return;
+			}
+
+			boundsAreDirty = true;
+			stage.invalidate();
+
 		}
 
 		protected function stage_renderHandler( event : Event ) : void
@@ -199,6 +211,7 @@ package ru.trylogic.gui.components
 
 			boundsAreDirty = false;
 
+			//trace( "TrylogicComponent", "stage_renderHandler", this );
 			dispatchEvent( boundsChangedEvent );
 
 		}
@@ -211,15 +224,7 @@ package ru.trylogic.gui.components
 		[Bindable(event="propertyChange")]
 		public function set currentState( value : String ) : void
 		{
-			var oldValue : String = _statesImpl.currentState;
-			if ( value == oldValue )
-			{
-				return;
-			}
-
 			_statesImpl.currentState = value;
-
-			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "currentState", oldValue, value ) );
 		}
 
 		[ArrayElementType("mx.states.State")]
@@ -230,11 +235,6 @@ package ru.trylogic.gui.components
 
 		public function set states( value : Array ) : void
 		{
-			if ( value == _statesImpl.states )
-			{
-				return;
-			}
-
 			_statesImpl.states = value;
 		}
 
@@ -246,11 +246,6 @@ package ru.trylogic.gui.components
 
 		public function set transitions( value : Array ) : void
 		{
-			if ( value == _statesImpl.transitions )
-			{
-				return;
-			}
-
 			_statesImpl.transitions = value;
 		}
 

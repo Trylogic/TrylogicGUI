@@ -20,7 +20,7 @@ package ru.trylogic.gui.components
 			if ( _viewInstance == null )
 			{
 				var viewInstance : IView = new _skinClass();
-				viewInstance.addEventListener( "boundsChanged", dispatchEvent, false, 0, true );
+				viewInstance.addEventListener( boundsChangedEvent.type, invalidate, false, 0, true );
 				viewInstance['hostComponent'] = this;
 				initWithView( viewInstance );
 			}

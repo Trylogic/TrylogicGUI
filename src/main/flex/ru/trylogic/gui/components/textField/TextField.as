@@ -84,8 +84,26 @@ package ru.trylogic.gui.components.textField
 
 		override public function get face() : IDisplayObject
 		{
-			_face ||= IoCHelper.resolve( ITextFieldAdapter, this ) as ITextFieldAdapter;
-			return _face;
+			return _face ||= IoCHelper.resolve( ITextFieldAdapter, this ) as ITextFieldAdapter;
+		}
+
+		override protected function isPropertyAffectingAtBouns( propName : String ) : Boolean
+		{
+			switch ( propName )
+			{
+				case "text":
+				case "fontName":
+				case "fontSize":
+				case "multiline":
+				case "autoSize":
+				case "wordWrap":
+				{
+					return true;
+				}
+					break;
+			}
+
+			return super.isPropertyAffectingAtBouns( propName );
 		}
 	}
 }

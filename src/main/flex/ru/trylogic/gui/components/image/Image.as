@@ -45,13 +45,7 @@ package ru.trylogic.gui.components.image
 
 		override public function get face() : IDisplayObject
 		{
-			_face ||= IoCHelper.resolve( IImageAdapter, this ) as IImageAdapter;
-			return _face;
-		}
-
-		override protected function isPropertyAffectingAtBouns( propName : String ) : Boolean
-		{
-			return propName == "texture" || super.isPropertyAffectingAtBouns( propName );
+			return _face ||= IoCHelper.resolve( IImageAdapter, this ) as IImageAdapter;
 		}
 	}
 }
