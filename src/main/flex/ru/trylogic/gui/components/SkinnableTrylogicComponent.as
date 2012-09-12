@@ -7,6 +7,7 @@
 package ru.trylogic.gui.components
 {
 
+	import tl.view.AbstractView;
 	import tl.view.IView;
 
 	public class SkinnableTrylogicComponent extends TrylogicComponent
