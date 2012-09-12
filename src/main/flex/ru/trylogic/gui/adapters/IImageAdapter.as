@@ -24,7 +24,7 @@ import tl.adapters.IViewContainerAdapter;
 class StaticConstruct
 {
 	{
-		switch ( IoCHelper.resolve( IViewContainerAdapter ).constructor )
+		switch ( IoCHelper.resolve( IViewContainerAdapter, StaticConstruct ).constructor )
 		{
 			case NativeViewContainerAdapter:
 			{
