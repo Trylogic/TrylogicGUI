@@ -3,10 +3,9 @@ package ru.trylogic.gui.components.checkBox
 
 	import flash.events.Event;
 
-	import mx.states.State;
-
-	import ru.trylogic.gui.TUIComponentViewController;
 	import ru.trylogic.gui.components.button.Button;
+
+	import ru.trylogic.gui.components.SkinnableTrylogicComponent;
 
 	import tl.viewController.outlet;
 
@@ -14,7 +13,7 @@ package ru.trylogic.gui.components.checkBox
 
 	[SkinState("checked")]
 	[SkinState("unchecked")]
-	public class CheckBox extends TUIComponentViewController
+	public class CheckBox extends SkinnableTrylogicComponent
 	{
 		public static const CHANGED_EVENT : Event = new Event( "changed" );
 
@@ -22,7 +21,7 @@ package ru.trylogic.gui.components.checkBox
 		public var label : String = "";
 
 		[Bindable]
-		public var skinStyle : CheckBoxSkinStyle = null;//***
+		public var skinStyle : CheckBoxSkinStyle = null;
 
 		[SkinPart(required="true")]
 		public var checkButton : Button;

@@ -3,18 +3,19 @@ package ru.trylogic.gui.components.stick
 
 	import flash.display.Stage;
 
-	import ru.trylogic.gui.TUIComponentViewController;
 	import ru.trylogic.gui.components.button.Button;
 	import ru.trylogic.gui.containers.ContainerBase;
 	import ru.trylogic.unitouch.gestures.MoveGesture;
 	import ru.trylogic.unitouch.gestures.abstract.GestureEvent;
+
+	import ru.trylogic.gui.components.SkinnableTrylogicComponent;
 
 	import tl.ioc.IoCHelper;
 	import tl.viewController.outlet;
 
 	use namespace outlet;
 
-	public class Stick extends TUIComponentViewController
+	public class Stick extends SkinnableTrylogicComponent
 	{
 
 		[Bindable]

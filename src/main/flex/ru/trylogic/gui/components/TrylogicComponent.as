@@ -1,32 +1,24 @@
-/**
- * Created by IntelliJ IDEA.
- * User: bsideup
- * Date: 04.08.12
- * Time: 13:25
- */
-package ru.trylogic.gui
+package ru.trylogic.gui.components
 {
 
 	import flash.display.Stage;
 	import flash.events.Event;
 
 	import mx.core.IStateClient2;
-
 	import mx.events.PropertyChangeEvent;
 
 	import ru.trylogic.unitouch.UniTouch;
-
-	import spark.components.supportClasses.SkinnableComponent;
 
 	import tl.ioc.IoCHelper;
 
 	import tl.view.IView;
 	import tl.viewController.IVIewController;
+	import tl.viewController.ViewController;
 
-	public class TUIComponentViewController extends SkinnableComponent implements IView
+	public class TrylogicComponent extends ViewController implements IView
 	{
 		private static const boundsChangedEvent : Event = new Event( "boundsChanged" );
-		private static const stage : Stage = IoCHelper.resolve( Stage, TUIComponentViewController );
+		private static const stage : Stage = IoCHelper.resolve( Stage, TrylogicComponent );
 
 		{
 			UniTouch.stage = stage;
@@ -37,9 +29,12 @@ package ru.trylogic.gui
 
 		protected var boundsAreDirty : Boolean = false;
 
-		protected var _skinClass : Class;
-
 		use namespace viewControllerInternal;
+
+		public function get face() : *
+		{
+			return view.face;
+		}
 
 		public function get x() : Number
 		{
@@ -140,49 +135,17 @@ package ru.trylogic.gui
 			face.visible = value;
 		}
 
-		public function get face() : *
-		{
-			return view.face;
-		}
-
-		override protected function get view() : IView
-		{
-			if ( _viewInstance == null )
-			{
-				var viewInstance : IView = new _skinClass();
-				viewInstance.addEventListener( "boundsChanged", dispatchEvent, false, 0, true );
-				viewInstance['hostComponent'] = this;
-				initWithView( viewInstance );
-			}
-			return _viewInstance;
-		}
-
-		public function get skinClass() : Class
-		{
-			return _skinClass;
-		}
-
-		public function set skinClass( value : Class ) : void
-		{
-			if ( _skinClass == value )
-			{
-				return;
-			}
-
-			_skinClass = value;
-		}
-
 		public function get controller() : IVIewController
 		{
 			return this;
 		}
 
-		protected function get skinParts() : Object
+		override protected function get view() : IView
 		{
-			return null;
+			return this;
 		}
 
-		public function TUIComponentViewController()
+		public function TrylogicComponent()
 		{
 			stage.addEventListener( Event.RENDER, stage_renderHandler );
 		}
@@ -193,16 +156,7 @@ package ru.trylogic.gui
 
 			if ( _viewInstance )
 			{
-				_viewInstance.addEventListener( "boundsChanged", dispatchEvent, false, 0, true );
-				for ( var skinPart : String in skinParts )
-				{
-					if ( skinParts[skinPart] == false && !Object( _viewInstance ).hasOwnProperty( skinPart ) )
-					{
-						continue;
-					}
-
-					this[skinPart] = _viewInstance[skinPart];
-				}
+				_viewInstance.addEventListener( boundsChangedEvent.type, dispatchEvent, false, 0, true );
 			}
 		}
 
@@ -212,12 +166,7 @@ package ru.trylogic.gui
 
 			if ( _viewInstance )
 			{
-				_viewInstance.removeEventListener( "boundsChanged", dispatchEvent );
-			}
-
-			for ( var skinPart : String in skinParts )
-			{
-				this[skinPart] = null;
+				_viewInstance.removeEventListener( boundsChangedEvent.type, dispatchEvent );
 			}
 		}
 

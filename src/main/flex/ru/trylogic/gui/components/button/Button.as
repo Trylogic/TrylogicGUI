@@ -3,12 +3,10 @@ package ru.trylogic.gui.components.button
 
 	import flash.events.Event;
 
-	import mx.states.State;
-
-	import ru.trylogic.gui.TUIComponentViewController;
-
 	import ru.trylogic.unitouch.gestures.TapGesture;
 	import ru.trylogic.unitouch.gestures.abstract.GestureEvent;
+
+	import ru.trylogic.gui.components.SkinnableTrylogicComponent;
 
 	import tl.viewController.outlet;
 
@@ -18,7 +16,7 @@ package ru.trylogic.gui.components.button
 	[SkinState("up")]
 	[SkinState("down")]
 	[SkinState("disabled")]
-	public class Button extends TUIComponentViewController
+	public class Button extends SkinnableTrylogicComponent
 	{
 		public static const TAP_EVENT : Event = new Event( "tap" );
 

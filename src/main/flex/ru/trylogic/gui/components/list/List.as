@@ -6,10 +6,11 @@ package ru.trylogic.gui.components.list
 	import mx.core.IFactory;
 	import mx.events.PropertyChangeEvent;
 
-	import ru.trylogic.gui.TUIComponentViewController;
 	import ru.trylogic.gui.containers.ContainerBase;
 	import ru.trylogic.gui.layouts.ILayout;
 	import ru.trylogic.gui.dataProviders.IListDataProvider;
+
+	import ru.trylogic.gui.components.SkinnableTrylogicComponent;
 
 	import tl.view.IView;
 	import tl.viewController.outlet;
@@ -17,7 +18,7 @@ package ru.trylogic.gui.components.list
 	use namespace outlet;
 
 	[Event(name="itemSelected", type="ru.trylogic.gui.components.list.ListEvent")]
-	public class List extends TUIComponentViewController
+	public class List extends SkinnableTrylogicComponent
 	{
 		private static const itemSelectedEvent : ListEvent = new ListEvent( ListEvent.ITEM_SELECTED );
 		private const pool : Array = [];

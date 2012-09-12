@@ -3,16 +3,19 @@ package ru.trylogic.gui.components.image
 
 	import mx.events.PropertyChangeEvent;
 
-	import ru.trylogic.gui.*;
 	import ru.trylogic.gui.adapters.IImageAdapter;
+
+	import ru.trylogic.gui.components.TrylogicComponent;
 
 	import tl.ioc.IoCHelper;
 
-	public class Image extends TUIComponent
+	public class Image extends TrylogicComponent
 	{
+		protected var _face : IImageAdapter;
+
 		public function get texture() : *
 		{
-			return _face == null ? null : IImageAdapter( _face ).component_texture;
+			return _face == null ? null : _face.component_texture;
 		}
 
 		[Bindable]
@@ -24,15 +27,26 @@ package ru.trylogic.gui.components.image
 				return;
 			}
 
-			IImageAdapter( face ).component_texture = value;
+			var oldWidth : Number = width;
+			var oldHeight : Number = height;
 
-			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", 0, width ) );
-			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", 0, height ) );
+			face.component_texture = value;
+
+			if ( oldWidth != width )
+			{
+				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", 0, width ) );
+			}
+
+			if ( oldHeight != height )
+			{
+				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", 0, height ) );
+			}
 		}
 
-		override protected function lazyCreateFace() : *
+		override public function get face() : *
 		{
-			return IoCHelper.resolve( IImageAdapter, this );
+			_face ||= IoCHelper.resolve( IImageAdapter, this ) as IImageAdapter;
+			return _face;
 		}
 
 		override protected function isPropertyAffectingAtBouns( propName : String ) : Boolean

@@ -1,38 +1,26 @@
 package ru.trylogic.gui.components.textField
 {
 
-	import mx.events.PropertyChangeEvent;
-
-	import ru.trylogic.gui.*;
 	import ru.trylogic.gui.adapters.ITextFieldAdapter;
 
+	import ru.trylogic.gui.components.TrylogicComponent;
+
 	import tl.ioc.IoCHelper;
-	import tl.viewController.ViewController;
+	import tl.view.IView;
 
-	public class TextField extends TUIComponent
+	public class TextField extends TrylogicComponent
 	{
-
-		[Bindable(event="propertyChange")]
-		override public function get face() : *
-		{
-			if ( _face == null )
-			{
-				_face = IoCHelper.resolve(ITextFieldAdapter, this);
-				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "face", null, _face ) );
-			}
-
-			return _face;
-		}
+		protected var _face : ITextFieldAdapter;
 
 		public function get text() : String
 		{
-			return _face == null ? "" : ITextFieldAdapter(_face).component_text;
+			return _face == null ? "" : ITextFieldAdapter( _face ).component_text;
 		}
 
 		[Bindable]
 		public function set text( value : String ) : void
 		{
-			ITextFieldAdapter(face).component_text = value;
+			ITextFieldAdapter( face ).component_text = value;
 		}
 
 		public function get fontName() : String
@@ -43,7 +31,7 @@ package ru.trylogic.gui.components.textField
 		[Bindable]
 		public function set fontName( value : String ) : void
 		{
-			ITextFieldAdapter(face ).component_fontName = value;
+			ITextFieldAdapter( face ).component_fontName = value;
 		}
 
 		public function get fontSize() : Object
@@ -93,7 +81,12 @@ package ru.trylogic.gui.components.textField
 		public function TextField()
 		{
 			super();
-			controllerClass = ViewController;
+		}
+
+		override public function get face() : *
+		{
+			_face ||= IoCHelper.resolve( ITextFieldAdapter, this ) as ITextFieldAdapter;
+			return _face;
 		}
 	}
 }

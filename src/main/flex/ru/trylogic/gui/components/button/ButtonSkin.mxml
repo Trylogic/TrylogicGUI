@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
-<containers:SimpleContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
-							xmlns:s="library://ns.adobe.com/flex/spark"
-							xmlns:containers="ru.trylogic.gui.containers.*" xmlns:image="ru.trylogic.gui.components.image.*"
-							xmlns:textfield="ru.trylogic.gui.components.textField.*" implements="tl.view.IView">
+<trylogic:ViewContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+						xmlns:s="library://ns.adobe.com/flex/spark"
+						xmlns:containers="ru.trylogic.gui.containers.*" xmlns:image="ru.trylogic.gui.components.image.*"
+						xmlns:textfield="ru.trylogic.gui.components.textField.*" implements="tl.view.IView" xmlns:trylogic="http://www.trylogic.ru/">
 
 	<fx:Metadata>
 		[HostComponent("ru.trylogic.gui.components.button.Button")]
 	</fx:Metadata>
 
-	<containers:states>
+	<trylogic:states>
 		<s:State id="upState" name="up"/>
 		<s:State id="downState" name="down"/>
 		<s:State id="disabledState" name="disabled"/>
-	</containers:states>
+	</trylogic:states>
 
 	<image:Image texture.up="{hostComponent.skinStyle.upTexture}"
 				 texture.down="{hostComponent.skinStyle.downTexture || hostComponent.skinStyle.upTexture}"
 				 texture.disabled="{hostComponent.skinStyle.disabledTexture || hostComponent.skinStyle.upTexture}"/>
 
 	<textfield:TextField id="label" text="{hostComponent.text}"/>
-</containers:SimpleContainer>
+</trylogic:ViewContainer>
