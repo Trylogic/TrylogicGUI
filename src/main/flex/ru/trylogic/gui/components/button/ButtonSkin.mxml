@@ -3,7 +3,7 @@
 						  xmlns:s="library://ns.adobe.com/flex/spark"
 						  xmlns:image="ru.trylogic.gui.components.image.*"
 						  xmlns:textfield="ru.trylogic.gui.components.textField.*"
-						  xmlns:trylogic="http://www.trylogic.ru/" xmlns:containers="ru.trylogic.gui.containers.*">
+						  xmlns:containers="ru.trylogic.gui.containers.*">
 
 	<fx:Metadata>
 		[HostComponent("ru.trylogic.gui.components.button.Button")]
@@ -15,9 +15,9 @@
 		<s:State id="disabledState" name="disabled"/>
 	</containers:states>
 
-	<image:Image texture.up="{hostComponent.skinStyle.upTexture}"
+	<image:Image id="buttonImage" texture.up="{hostComponent.skinStyle.upTexture}"
 				 texture.down="{hostComponent.skinStyle.downTexture || hostComponent.skinStyle.upTexture}"
 				 texture.disabled="{hostComponent.skinStyle.disabledTexture || hostComponent.skinStyle.upTexture}"/>
 
-	<textfield:TextField id="label" text="{hostComponent.text}"/>
+	<textfield:TextField id="label" text="{hostComponent.text}" x="{(buttonImage.width - label.width) * 0.5}" y="{(buttonImage.height - label.height) * 0.5}"/>
 </containers:ContainerBase>

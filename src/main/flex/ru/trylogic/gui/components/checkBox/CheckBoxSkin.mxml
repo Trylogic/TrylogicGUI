@@ -8,10 +8,35 @@
 		[HostComponent("ru.trylogic.gui.components.checkBox.CheckBox")]
 	</fx:Metadata>
 
+	<fx:Declarations>
+		<fx:Component className="CheckBoxButtonSkin">
+			<containers:ContainerBase xmlns:image="ru.trylogic.gui.components.image.*"
+									  xmlns:textfield="ru.trylogic.gui.components.textField.*"
+									  xmlns:containers="ru.trylogic.gui.containers.*">
+
+				<fx:Metadata>
+					[HostComponent("ru.trylogic.gui.components.button.Button")]
+				</fx:Metadata>
+
+				<containers:states>
+					<s:State id="upState" name="up"/>
+					<s:State id="downState" name="down"/>
+					<s:State id="disabledState" name="disabled"/>
+				</containers:states>
+
+				<image:Image id="buttonImage" texture.up="{hostComponent.skinStyle.upTexture}"
+							 texture.down="{hostComponent.skinStyle.downTexture || hostComponent.skinStyle.upTexture}"
+							 texture.disabled="{hostComponent.skinStyle.disabledTexture || hostComponent.skinStyle.upTexture}"/>
+
+				<textfield:TextField id="label" text="{hostComponent.text}" x="{buttonImage.width + 5}" y="{(buttonImage.height - label.height) * 0.5}"/>
+			</containers:ContainerBase>
+		</fx:Component>
+	</fx:Declarations>
+
 	<containers:states>
 		<s:State id="uncheckedState" name="unchecked"/>
 		<s:State id="checkedState" name="checked"/>
 	</containers:states>
 
-	<buttons:Button id="checkButton" skinStyle.checked="{hostComponent.skinStyle.checkedButtonSkinStyle}" skinStyle.unchecked="{hostComponent.skinStyle.uncheckedButtonSkinStyle}" text="{hostComponent.label}"/>
+	<buttons:Button id="checkButton" skinClass="ru.trylogic.gui.components.checkBox.CheckBoxButtonSkin" skinStyle.checked="{hostComponent.skinStyle.checkedButtonSkinStyle}" skinStyle.unchecked="{hostComponent.skinStyle.uncheckedButtonSkinStyle}" text="{hostComponent.label}"/>
 </containers:ContainerBase>

@@ -130,7 +130,8 @@ package ru.trylogic.gui.components.list
 
 			if ( _dataProvider != null )
 			{
-				for ( var i : uint = _currentPage * _itemsPerPage; i < Math.min( _currentPage * _itemsPerPage + _itemsPerPage, _dataProvider.length ); i++ )
+				const totalItems : Number = Math.min( _currentPage * _itemsPerPage + _itemsPerPage, _dataProvider.length );
+				for ( var i : uint = _currentPage * _itemsPerPage; i < totalItems; i++ )
 				{
 					itemRendererInstance = (pool.length > 0 ? pool.pop() : itemRenderer.newInstance());
 					itemRendererInstance.initInternal( i, dataProvider, viewControllerInternal::onItemSelected );

@@ -1,6 +1,8 @@
 package ru.trylogic.gui.components.textField
 {
 
+	import mx.events.PropertyChangeEvent;
+
 	import ru.trylogic.gui.adapters.ITextFieldAdapter;
 	import ru.trylogic.gui.components.TrylogicComponent;
 
@@ -19,12 +21,25 @@ package ru.trylogic.gui.components.textField
 		[Bindable]
 		public function set text( value : String ) : void
 		{
+			var oldWidth : Number = width;
+			var oldHeight : Number = height;
+
 			( face as ITextFieldAdapter ).component_text = value;
+
+			if ( oldWidth != width )
+			{
+				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
+			}
+
+			if ( oldHeight != height )
+			{
+				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
+			}
 		}
 
 		public function get fontName() : String
 		{
-			return ( face as ITextFieldAdapter ).component_fontName;
+			return _face == null ? "" : ITextFieldAdapter( _face ).component_fontName;
 		}
 
 		[Bindable]
@@ -35,7 +50,7 @@ package ru.trylogic.gui.components.textField
 
 		public function get fontSize() : Object
 		{
-			return ( face as ITextFieldAdapter ).component_fontSize;
+			return _face == null ? null : ITextFieldAdapter( _face ).component_fontSize;
 		}
 
 		[Bindable]
@@ -46,7 +61,7 @@ package ru.trylogic.gui.components.textField
 
 		public function get multiline() : Boolean
 		{
-			return ( face as ITextFieldAdapter ).component_multiline;
+			return _face == null ? false : ITextFieldAdapter( _face ).component_multiline;
 		}
 
 		[Bindable]
@@ -57,7 +72,7 @@ package ru.trylogic.gui.components.textField
 
 		public function get autoSize() : Boolean
 		{
-			return ( face as ITextFieldAdapter ).component_autoSize;
+			return _face == null ? false : ITextFieldAdapter( _face ).component_autoSize;
 		}
 
 		[Bindable]
