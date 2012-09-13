@@ -12,6 +12,7 @@ package ru.trylogic.gui.containers
 	import ru.trylogic.unitouch.UniTouch;
 
 	import tl.ioc.IoCHelper;
+	import tl.view.IDisplayObject;
 	import tl.view.IView;
 	import tl.view.ViewContainer;
 
@@ -30,6 +31,7 @@ package ru.trylogic.gui.containers
 
 		protected var _layout : ILayout;
 		private var boundsAreDirty : Boolean = false;
+		private var layoutIsDirty : Boolean = false;
 
 		public function get isDirty() : Boolean
 		{
@@ -41,14 +43,9 @@ package ru.trylogic.gui.containers
 			return _layout;
 		}
 
-		//[Bindable]
+		[Bindable]
 		public function set layout( value : ILayout ) : void
 		{
-			if ( value == _layout )
-			{
-				return;
-			}
-
 			if ( _layout )
 			{
 				_layout.storeView( null );
@@ -104,65 +101,100 @@ package ru.trylogic.gui.containers
 
 		protected function stage_renderHandler( event : Event ) : void
 		{
-			if ( !boundsAreDirty )
+			var needsDispatch : Boolean = false;
+			if ( boundsAreDirty )
 			{
-				return;
+				boundsAreDirty = false;
+
+				needsDispatch = true;
 			}
 
-			boundsAreDirty = false;
+			if ( layoutIsDirty )
+			{
+				if ( _layout != null )
+				{
+					//trace( "ContainerBase", "invalidateLayout", _layout, this );
+					var oldWidth : Number = width;
+					var oldHeight : Number = height;
 
-			dispatchEvent( boundsChangedEvent );
+					_layout.invalidateLayout();
+
+					if ( oldWidth != width || oldHeight != height )
+					{
+						needsDispatch = true;
+
+						if ( oldWidth != width )
+						{
+							dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
+						}
+
+						if ( oldHeight != height )
+						{
+							dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
+						}
+					}
+				}
+				else
+				{
+					needsDispatch = true;
+				}
+			}
+
+			if ( needsDispatch )
+			{
+				dispatchEvent( boundsChangedEvent );
+			}
 
 		}
 
 		override public function set subViews( value : Vector.<IView> ) : void
 		{
+			var element : IView;
+
+			for each ( element in _subViews )
+			{
+				element.removeEventListener( boundsChangedEvent.type, invalidateLayout );
+			}
+
+			if ( _face )
+			{
+				var oldWidth : Number = width;
+				var oldHeight : Number = height;
+			}
 			super.subViews = value;
+
+			if ( _face )
+			{
+				if ( oldWidth != width )
+				{
+					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
+				}
+
+				if ( oldHeight != height )
+				{
+					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
+				}
+			}
+
+			for each( element in _subViews )
+			{
+				element.addEventListener( boundsChangedEvent.type, invalidateLayout, false, 0, true );
+			}
 
 			invalidateLayout();
 		}
 
-		override public function addView( element : IView ) : void
-		{
-			super.addView( element );
-			element.addEventListener( boundsChangedEvent.type, invalidateLayout, false, 0, true );
-		}
-
-		override public function removeView( element : IView ) : void
-		{
-			element.removeEventListener( boundsChangedEvent.type, invalidateLayout );
-			super.removeView( element );
-		}
-
 		protected function invalidateLayout( e : Event = null ) : void
 		{
-			if ( _layout != null )
-			{
-				//trace( "ContainerBase", "invalidateLayout", _layout, this );
-				var oldWidth : Number = width;
-				var oldHeight : Number = height;
+			layoutIsDirty = true;
+			stage.invalidate();
+		}
 
-				_layout.invalidateLayout();
-
-				if ( oldWidth != width || oldHeight != height )
-				{
-					invalidate();
-
-					if ( oldWidth != width )
-					{
-						dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
-					}
-
-					if ( oldHeight != height )
-					{
-						dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
-					}
-				}
-			}
-			else
-			{
-				invalidate();
-			}
+		override protected function lazyCreateFace() : IDisplayObject
+		{
+			var result : IDisplayObject = super.lazyCreateFace();
+			invalidate();
+			return result;
 		}
 	}
 }
