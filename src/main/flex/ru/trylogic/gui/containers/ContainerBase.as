@@ -9,6 +9,7 @@ package ru.trylogic.gui.containers
 	import ru.trylogic.gui.layouts.BasicLayout;
 
 	import ru.trylogic.gui.layouts.ILayout;
+	import ru.trylogic.gui.skins.SkinStyle;
 	import ru.trylogic.unitouch.UniTouch;
 
 	import tl.ioc.IoCHelper;
