@@ -163,7 +163,7 @@ package ru.trylogic.gui.components
 		{
 			if ( event is PropertyChangeEvent && isPropertyAffectingAtBounds( (event as PropertyChangeEvent).property as String ) )
 			{
-				invalidate();
+				invalidateBounds();
 			}
 
 			return super.dispatchEvent( event );
@@ -189,7 +189,7 @@ package ru.trylogic.gui.components
 			return false;
 		}
 
-		protected function invalidate( e : Event = null ) : void
+		protected function invalidateBounds( e : Event = null ) : void
 		{
 			if ( boundsAreDirty )
 			{
