@@ -33,6 +33,7 @@ package ru.trylogic.gui.components.list
 		protected var _currentPage : uint = 0;
 		protected var _dataProvider : IListDataProvider;
 		protected var _itemsContainer : ContainerBase;
+		private var _maxPages : uint = 0;
 
 		[SkinPart(required="true")]
 		public function set itemsContainer( value : ContainerBase ) : void
@@ -65,6 +66,11 @@ package ru.trylogic.gui.components.list
 		public function get itemsPerPage() : uint
 		{
 			return _itemsPerPage;
+		}
+
+		public function get maxPages() : uint
+		{
+			return _maxPages;
 		}
 
 		[Bindable]
@@ -114,6 +120,8 @@ package ru.trylogic.gui.components.list
 
 		protected function onDataChanged( event : Event = null ) : void
 		{
+			_maxPages = _dataProvider ? uint( _dataProvider.length / _itemsPerPage ) : 0;
+
 			if ( _itemsContainer == null )
 			{
 				return;
