@@ -13,8 +13,7 @@ package ru.trylogic.gui.skins
 
 		public function set destination( value : SkinnableTrylogicComponent ) : void
 		{
-			var oldDestination : Object;
-			for ( oldDestination in oldDestinationHolder )
+			for ( var oldDestination : Object in oldDestinationHolder )
 			{
 				break;
 			}
@@ -27,9 +26,8 @@ package ru.trylogic.gui.skins
 			if ( oldDestination )
 			{
 				oldDestination["skinStyle"] = null;
+				delete oldDestinationHolder[oldDestination];
 			}
-
-			delete oldDestinationHolder[oldDestination];
 
 			value["skinStyle"] = this;
 

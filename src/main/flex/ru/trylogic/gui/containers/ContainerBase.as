@@ -72,7 +72,7 @@ package ru.trylogic.gui.containers
 
 		override public function dispatchEvent( event : Event ) : Boolean
 		{
-			if ( event is PropertyChangeEvent && isPropertyAffectingAtBouns( (event as PropertyChangeEvent).property as String ) )
+			if ( event is PropertyChangeEvent && isPropertyAffectingAtBounds( (event as PropertyChangeEvent).property as String ) )
 			{
 				invalidate();
 			}
@@ -80,7 +80,7 @@ package ru.trylogic.gui.containers
 			return super.dispatchEvent( event );
 		}
 
-		protected function isPropertyAffectingAtBouns( propName : String ) : Boolean
+		protected function isPropertyAffectingAtBounds( propName : String ) : Boolean
 		{
 			switch ( propName )
 			{

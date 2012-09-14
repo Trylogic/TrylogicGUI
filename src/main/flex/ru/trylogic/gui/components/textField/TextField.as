@@ -102,7 +102,7 @@ package ru.trylogic.gui.components.textField
 			return _face ||= IoCHelper.resolve( ITextFieldAdapter, this ) as ITextFieldAdapter;
 		}
 
-		override protected function isPropertyAffectingAtBouns( propName : String ) : Boolean
+		override protected function isPropertyAffectingAtBounds( propName : String ) : Boolean
 		{
 			switch ( propName )
 			{
@@ -118,7 +118,7 @@ package ru.trylogic.gui.components.textField
 					break;
 			}
 
-			return super.isPropertyAffectingAtBouns( propName );
+			return super.isPropertyAffectingAtBounds( propName );
 		}
 	}
 }

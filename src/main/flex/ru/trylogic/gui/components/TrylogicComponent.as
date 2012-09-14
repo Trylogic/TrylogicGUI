@@ -161,7 +161,7 @@ package ru.trylogic.gui.components
 
 		override public function dispatchEvent( event : Event ) : Boolean
 		{
-			if ( event is PropertyChangeEvent && isPropertyAffectingAtBouns( (event as PropertyChangeEvent).property as String ) )
+			if ( event is PropertyChangeEvent && isPropertyAffectingAtBounds( (event as PropertyChangeEvent).property as String ) )
 			{
 				invalidate();
 			}
@@ -169,7 +169,7 @@ package ru.trylogic.gui.components
 			return super.dispatchEvent( event );
 		}
 
-		protected function isPropertyAffectingAtBouns( propName : String ) : Boolean
+		protected function isPropertyAffectingAtBounds( propName : String ) : Boolean
 		{
 			switch ( propName )
 			{
@@ -180,7 +180,6 @@ package ru.trylogic.gui.components
 				case "width":
 				case "height":
 				case "visible":
-				case "skinStyle":
 				{
 					return true;
 				}
@@ -199,7 +198,6 @@ package ru.trylogic.gui.components
 
 			boundsAreDirty = true;
 			stage.invalidate();
-
 		}
 
 		protected function stage_renderHandler( event : Event ) : void
