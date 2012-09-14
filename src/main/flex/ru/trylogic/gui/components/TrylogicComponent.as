@@ -29,6 +29,9 @@ package ru.trylogic.gui.components
 
 		protected var boundsAreDirty : Boolean = false;
 
+		protected var oldWidth : Number = 0;
+		protected var oldHeight : Number = 0;
+
 		use namespace viewControllerInternal;
 
 		public function get face() : IDisplayObject
@@ -136,7 +139,7 @@ package ru.trylogic.gui.components
 
 		public function TrylogicComponent()
 		{
-			stage.addEventListener( Event.RENDER, stage_renderHandler );
+			stage.addEventListener( Event.RENDER, validate );
 		}
 
 		override viewControllerInternal function installView() : void
@@ -200,7 +203,7 @@ package ru.trylogic.gui.components
 			stage.invalidate();
 		}
 
-		protected function stage_renderHandler( event : Event ) : void
+		viewControllerInternal function validate( event : Event = null ) : void
 		{
 			if ( !boundsAreDirty )
 			{
@@ -209,9 +212,27 @@ package ru.trylogic.gui.components
 
 			boundsAreDirty = false;
 
-			//trace( "TrylogicComponent", "stage_renderHandler", this );
-			dispatchEvent( boundsChangedEvent );
+			const newWidth : Number = width;
+			const newHeight : Number = height;
 
+			if ( oldWidth != newWidth || oldHeight != newHeight )
+			{
+				trace( "TrylogicComponent", "validate", this );
+				if ( oldWidth != newWidth )
+				{
+					super.dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, newWidth ) );
+				}
+
+				if ( oldHeight != newHeight )
+				{
+					super.dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, newHeight ) );
+				}
+
+				super.dispatchEvent( boundsChangedEvent );
+
+				oldWidth = newWidth;
+				oldHeight = newHeight;
+			}
 		}
 
 		public function get currentState() : String

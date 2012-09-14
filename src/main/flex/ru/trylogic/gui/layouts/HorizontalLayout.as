@@ -32,11 +32,13 @@ package ru.trylogic.gui.layouts
 
 			var newPosition : Number = 0;
 
-			for each( var subView : IView in view.subViews )
+			const subViews : Vector.<IView> = view.subViews;
+			for ( var i : uint = 0; i < subViews.length; i++ )
 			{
-				subView.face.x = newPosition;
+				var subView : IView = subViews[i];
+				subView.x = newPosition;
 				//subView.face.y = 0;
-				newPosition += subView.face.width + _hspace;
+				newPosition += subView.width + _hspace;
 			}
 		}
 	}

@@ -9,7 +9,6 @@ package ru.trylogic.gui.containers
 	import ru.trylogic.gui.layouts.BasicLayout;
 
 	import ru.trylogic.gui.layouts.ILayout;
-	import ru.trylogic.gui.skins.SkinStyle;
 	import ru.trylogic.unitouch.UniTouch;
 
 	import tl.ioc.IoCHelper;
@@ -28,15 +27,37 @@ package ru.trylogic.gui.containers
 			UniTouch.stage = stage;
 		}
 
-		protected var dirty : Boolean = false;
+		use namespace viewInternal;
 
 		protected var _layout : ILayout;
 		private var boundsAreDirty : Boolean = false;
 		private var layoutIsDirty : Boolean = false;
+		private var oldWidth : Number = 0;
+		private var oldHeight : Number = 0;
 
-		public function get isDirty() : Boolean
+		override public function set subViews( value : Vector.<IView> ) : void
 		{
-			return dirty;
+			if ( _face )
+			{
+				var oldWidth : Number = width;
+				var oldHeight : Number = height;
+			}
+			super.subViews = value;
+
+			if ( _face )
+			{
+				if ( oldWidth != width )
+				{
+					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
+				}
+
+				if ( oldHeight != height )
+				{
+					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
+				}
+			}
+
+			invalidateLayout();
 		}
 
 		public function get layout() : ILayout
@@ -61,23 +82,14 @@ package ru.trylogic.gui.containers
 
 		public function ContainerBase()
 		{
-			stage.addEventListener( Event.RENDER, stage_renderHandler );
+			stage.addEventListener( Event.RENDER, validate );
 		}
 
-		protected function invalidate( e : Event = null ) : void
+		override protected function lazyCreateFace() : IDisplayObject
 		{
-			boundsAreDirty = true;
-			stage.invalidate();
-		}
-
-		override public function dispatchEvent( event : Event ) : Boolean
-		{
-			if ( event is PropertyChangeEvent && isPropertyAffectingAtBounds( (event as PropertyChangeEvent).property as String ) )
-			{
-				invalidate();
-			}
-
-			return super.dispatchEvent( event );
+			var result : IDisplayObject = super.lazyCreateFace();
+			invalidateBounds();
+			return result;
 		}
 
 		protected function isPropertyAffectingAtBounds( propName : String ) : Boolean
@@ -100,102 +112,76 @@ package ru.trylogic.gui.containers
 			return false;
 		}
 
-		protected function stage_renderHandler( event : Event ) : void
+		override viewInternal function installChildViewAtIndex( child : IView, index : int ) : void
 		{
-			var needsDispatch : Boolean = false;
+			super.installChildViewAtIndex( child, index );
+			child.addEventListener( boundsChangedEvent.type, invalidateLayout, false, 0, true );
+		}
+
+		override viewInternal function uninstallChildView( child : IView ) : void
+		{
+			super.uninstallChildView( child );
+			child.removeEventListener( boundsChangedEvent.type, invalidateLayout );
+		}
+
+		viewInternal function invalidateBounds( e : Event = null ) : void
+		{
 			if ( boundsAreDirty )
 			{
-				boundsAreDirty = false;
-
-				needsDispatch = true;
+				return;
 			}
 
+			boundsAreDirty = true;
+			stage.invalidate();
+		}
+
+		viewInternal function invalidateLayout( e : Event = null ) : void
+		{
 			if ( layoutIsDirty )
 			{
-				if ( _layout != null )
-				{
-					//trace( "ContainerBase", "invalidateLayout", _layout, this );
-					var oldWidth : Number = width;
-					var oldHeight : Number = height;
-
-					_layout.invalidateLayout();
-
-					if ( oldWidth != width || oldHeight != height )
-					{
-						needsDispatch = true;
-
-						if ( oldWidth != width )
-						{
-							dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
-						}
-
-						if ( oldHeight != height )
-						{
-							dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
-						}
-					}
-				}
-				else
-				{
-					needsDispatch = true;
-				}
+				return;
 			}
 
-			if ( needsDispatch )
-			{
-				dispatchEvent( boundsChangedEvent );
-			}
-
-		}
-
-		override public function set subViews( value : Vector.<IView> ) : void
-		{
-			var element : IView;
-
-			for each ( element in _subViews )
-			{
-				element.removeEventListener( boundsChangedEvent.type, invalidateLayout );
-			}
-
-			if ( _face )
-			{
-				var oldWidth : Number = width;
-				var oldHeight : Number = height;
-			}
-			super.subViews = value;
-
-			if ( _face )
-			{
-				if ( oldWidth != width )
-				{
-					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
-				}
-
-				if ( oldHeight != height )
-				{
-					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
-				}
-			}
-
-			for each( element in _subViews )
-			{
-				element.addEventListener( boundsChangedEvent.type, invalidateLayout, false, 0, true );
-			}
-
-			invalidateLayout();
-		}
-
-		protected function invalidateLayout( e : Event = null ) : void
-		{
 			layoutIsDirty = true;
 			stage.invalidate();
 		}
 
-		override protected function lazyCreateFace() : IDisplayObject
+		viewInternal function validate( event : Event = null ) : void
 		{
-			var result : IDisplayObject = super.lazyCreateFace();
-			invalidate();
-			return result;
+
+			if ( boundsAreDirty )
+			{
+				boundsAreDirty = false;
+			}
+
+			if ( layoutIsDirty )
+			{
+				layoutIsDirty = false;
+
+				_layout && _layout.invalidateLayout();
+			}
+
+			const newWidth : Number = width;
+			const newHeight : Number = height;
+
+			if ( oldWidth != newWidth || oldHeight != newHeight )
+			{
+				trace( "ContainerBase", "validate", this );
+				if ( oldWidth != newWidth )
+				{
+					super.dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, newWidth ) );
+				}
+
+				if ( oldHeight != newHeight )
+				{
+					super.dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, newHeight ) );
+				}
+
+				super.dispatchEvent( boundsChangedEvent );
+
+				oldWidth = newWidth;
+				oldHeight = newHeight;
+			}
 		}
 	}
 }

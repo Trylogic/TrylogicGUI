@@ -1,8 +1,6 @@
 package ru.trylogic.gui.components.image
 {
 
-	import mx.events.PropertyChangeEvent;
-
 	import ru.trylogic.gui.adapters.IImageAdapter;
 	import ru.trylogic.gui.components.TrylogicComponent;
 
@@ -27,25 +25,17 @@ package ru.trylogic.gui.components.image
 				return;
 			}
 
-			var oldWidth : Number = width;
-			var oldHeight : Number = height;
-
 			(face as IImageAdapter).component_texture = value;
-
-			if ( oldWidth != width )
-			{
-				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", 0, width ) );
-			}
-
-			if ( oldHeight != height )
-			{
-				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", 0, height ) );
-			}
 		}
 
 		override public function get face() : IDisplayObject
 		{
 			return _face ||= IoCHelper.resolve( IImageAdapter, this ) as IImageAdapter;
+		}
+
+		override protected function isPropertyAffectingAtBounds( prop : String ) : Boolean
+		{
+			return prop == "texture" || super.isPropertyAffectingAtBounds( prop );
 		}
 	}
 }
