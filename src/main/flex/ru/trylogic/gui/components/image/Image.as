@@ -1,6 +1,8 @@
 package ru.trylogic.gui.components.image
 {
 
+	import mx.events.PropertyChangeEvent;
+
 	import ru.trylogic.gui.adapters.IImageAdapter;
 	import ru.trylogic.gui.components.TrylogicComponent;
 
@@ -16,7 +18,7 @@ package ru.trylogic.gui.components.image
 			return _face == null ? null : _face.component_texture;
 		}
 
-		[Bindable]
+		[Bindable(event="propertyChange")]
 		public function set texture( value : * ) : void
 		{
 			if ( value is Class )
@@ -26,6 +28,7 @@ package ru.trylogic.gui.components.image
 			}
 
 			(face as IImageAdapter).component_texture = value;
+			dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "texture", null, value ) );
 		}
 
 		override public function get face() : IDisplayObject
