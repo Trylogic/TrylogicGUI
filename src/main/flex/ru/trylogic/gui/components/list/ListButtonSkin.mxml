@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<list:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:image="ru.trylogic.gui.components.image.*"
+				   xmlns:textfield="ru.trylogic.gui.components.textField.*"
+				   xmlns:list="ru.trylogic.gui.components.list.*">
+
+	<fx:Metadata>
+		[HostComponent("ru.trylogic.gui.components.list.ListButton")]
+	</fx:Metadata>
+
+	<fx:Script>
+		<![CDATA[
+		import ru.trylogic.gui.dataProviders.IListDataProvider;
+
+		override protected function init( index : uint, dataProvider : IListDataProvider ) : void
+		{
+			label.text = dataProvider.getItemAt( index ).toString();
+		}
+		]]>
+	</fx:Script>
+
+	<list:states>
+		<s:State name="up"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+		<s:State name="selected"/>
+	</list:states>
+
+	<image:Image id="buttonImage" texture.up="{hostComponent.skinStyle.upTexture}"
+				 texture.down="{hostComponent.skinStyle.downTexture || hostComponent.skinStyle.upTexture}"
+				 texture.disabled="{hostComponent.skinStyle.disabledTexture || hostComponent.skinStyle.upTexture}"/>
+
+	<textfield:TextField id="label" x="{(buttonImage.width - label.width) * 0.5}" y="{(buttonImage.height - label.height) * 0.5}"/>
+</list:ItemRenderer>

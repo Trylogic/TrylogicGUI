@@ -221,17 +221,16 @@ package ru.trylogic.gui.components
 				if ( oldWidth != newWidth )
 				{
 					super.dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, newWidth ) );
+					oldWidth = newWidth;
 				}
 
 				if ( oldHeight != newHeight )
 				{
 					super.dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, newHeight ) );
+					oldHeight = newHeight;
 				}
 
 				super.dispatchEvent( boundsChangedEvent );
-
-				oldWidth = newWidth;
-				oldHeight = newHeight;
 			}
 		}
 
@@ -240,7 +239,7 @@ package ru.trylogic.gui.components
 			return _statesImpl.currentState;
 		}
 
-		[Bindable(event="propertyChange")]
+		[Bindable(event="currentStateChange")]
 		public function set currentState( value : String ) : void
 		{
 			_statesImpl.currentState = value;

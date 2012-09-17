@@ -19,4 +19,5 @@
 				 texture.down="{hostComponent.skinStyle.downTexture || hostComponent.skinStyle.upTexture}"
 				 texture.disabled="{hostComponent.skinStyle.disabledTexture || hostComponent.skinStyle.upTexture}"/>
 
+	<textfield:TextField id="label" text="{hostComponent.text}" x="{(buttonImage.width - label.width) * 0.5}" y="{(buttonImage.height - label.height) * 0.5}"/>
 </containers:ContainerBase>

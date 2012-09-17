@@ -37,25 +37,7 @@ package ru.trylogic.gui.containers
 
 		override public function set subViews( value : Vector.<IView> ) : void
 		{
-			if ( _face )
-			{
-				var oldWidth : Number = width;
-				var oldHeight : Number = height;
-			}
 			super.subViews = value;
-
-			if ( _face )
-			{
-				if ( oldWidth != width )
-				{
-					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
-				}
-
-				if ( oldHeight != height )
-				{
-					dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
-				}
-			}
 
 			invalidateLayout();
 		}
