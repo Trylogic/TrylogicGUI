@@ -5,8 +5,6 @@ package ru.trylogic.gui.components.list
 
 	import mx.core.ClassFactory;
 
-	import mx.core.ClassFactory;
-
 	import mx.core.IFactory;
 	import mx.events.PropertyChangeEvent;
 
@@ -32,6 +30,7 @@ package ru.trylogic.gui.components.list
 		[Bindable]
 		public var itemRenderer : IFactory;
 
+		[Bindable]
 		public var selectable : Boolean = false;
 
 		protected var _maxPages : uint = 1;
@@ -39,15 +38,9 @@ package ru.trylogic.gui.components.list
 		protected var _currentPage : uint = 0;
 		protected var _dataProvider : IListDataProvider;
 		protected var _itemsContainer : ContainerBase;
-
 		protected var _selectedItem : ListButton = null;
 
-
-		[Bindable(event="propertyChange")]
-		public function get maxPages() : uint
-		{
-			return _maxPages;
-		}
+		use namespace viewControllerInternal;
 
 		[SkinPart(required="true")]
 		public function set itemsContainer( value : ContainerBase ) : void
@@ -57,24 +50,22 @@ package ru.trylogic.gui.components.list
 				return;
 			}
 
-			if ( _itemsContainer )
-			{
-				_itemsContainer.removeEventListener( boundsChangedEvent.type, invalidateBounds );
-			}
-
 			_itemsContainer = value;
 
-			if ( _itemsContainer )
-			{
-				_itemsContainer.addEventListener( boundsChangedEvent.type, invalidateBounds, false, 0, true );
-				onDataChanged();
-			}
+			onDataChanged();
+		}
+
+		[Bindable(event="propertyChange")]
+		public function get maxPages() : uint
+		{
+			return _maxPages;
 		}
 
 		[Bindable]
 		public function set itemsPerPage( value : uint ) : void
 		{
 			_itemsPerPage = value;
+
 			onDataChanged();
 		}
 
@@ -87,6 +78,7 @@ package ru.trylogic.gui.components.list
 		public function set currentPage( value : int ) : void
 		{
 			_currentPage = Math.min( Math.max( 0, value ), _dataProvider ? _dataProvider.length / _itemsPerPage : 0 );
+
 			onDataChanged();
 		}
 
@@ -98,29 +90,18 @@ package ru.trylogic.gui.components.list
 		[Bindable]
 		public function set dataProvider( value : IListDataProvider ) : void
 		{
-			if ( _dataProvider == value )
-			{
-				return;
-			}
-
-			if ( _dataProvider )
-			{
-				_dataProvider.removeEventListener( "changed", onDataChanged );
-			}
+			_dataProvider && _dataProvider.removeEventListener( "changed", onDataChanged );
 
 			_dataProvider = value;
 
-			if ( _dataProvider )
-			{
-				_dataProvider.addEventListener( "changed", onDataChanged, false, 0, true );
-			}
+			_dataProvider && _dataProvider.addEventListener( "changed", onDataChanged, false, 0, true );
 
 			onDataChanged();
 		}
 
-		public function get selectedIndex() : int
+		public function get dataProvider() : IListDataProvider
 		{
-			return _selectedItem ? _selectedItem.index : -1;
+			return _dataProvider;
 		}
 
 		[Bindable]
@@ -132,19 +113,16 @@ package ru.trylogic.gui.components.list
 				_selectedItem = null;
 			}
 
-			if ( value != -1 )
+			if ( value != -1 && _itemsContainer != null )
 			{
-				if ( _itemsContainer != null )
-				{
-					_selectedItem = _itemsContainer.subViews[value - _currentPage * _itemsPerPage] as ListButton;
-					_selectedItem.selected = true;
-				}
+				_selectedItem = _itemsContainer.subViews[value - _currentPage * _itemsPerPage] as ListButton;
+				_selectedItem.selected = true;
 			}
 		}
 
-		public function get dataProvider() : IListDataProvider
+		public function get selectedIndex() : int
 		{
-			return _dataProvider;
+			return _selectedItem ? _selectedItem.index : -1;
 		}
 
 		public function List()
@@ -152,10 +130,11 @@ package ru.trylogic.gui.components.list
 			skinClass = ListSkin;
 		}
 
-		protected function onDataChanged( event : Event = null ) : void
+		viewControllerInternal function onDataChanged( event : Event = null ) : void
 		{
 			var oldMaxPages : uint = _maxPages;
 			_maxPages = _dataProvider ? (uint( _dataProvider.length / _itemsPerPage ) + 1) : 1;
+
 			if ( _maxPages != oldMaxPages )
 			{
 				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "maxPages", oldMaxPages, _maxPages ) );
@@ -170,29 +149,20 @@ package ru.trylogic.gui.components.list
 
 			var subViews : Vector.<IView> = _itemsContainer.subViews;
 			var newViews : Vector.<IView> = new Vector.<IView>();
-			var itemRendererInstance : ListButton;
 
 			if ( _dataProvider != null )
 			{
 				const totalItems : Number = Math.min( _currentPage * _itemsPerPage + _itemsPerPage, _dataProvider.length );
 				for ( var i : uint = _currentPage * _itemsPerPage; i < totalItems; i++ )
 				{
-					itemRendererInstance = subViews.shift() as ListButton;
+					var itemRendererInstance : ListButton = subViews.shift() as ListButton;
 					if ( itemRendererInstance == null )
 					{
 						itemRendererInstance = new ListButton();
-						itemRendererInstance.addEventListener( "tap", viewControllerInternal::onItemSelected, false, 0, true );
+						itemRendererInstance.addEventListener( "tap", onItemSelected, false, 0, true );
 					}
 
-					if ( itemRenderer && ClassFactory( itemRenderer ).generator )
-					{
-						itemRendererInstance.skinClass = ClassFactory( itemRenderer ).generator;
-					}
-					else
-					{
-						itemRendererInstance.skinClass = ListButtonSkin;
-					}
-
+					itemRendererInstance.skinClass = itemRenderer && ( itemRenderer as ClassFactory ).generator ? ( itemRenderer as ClassFactory ).generator : ListButtonSkin;
 					itemRendererInstance.update( dataProvider, i );
 					newViews.push( itemRendererInstance );
 				}
@@ -200,7 +170,7 @@ package ru.trylogic.gui.components.list
 
 			while ( itemRendererInstance = (subViews.pop() as ListButton) )
 			{
-				subViews.pop().removeEventListener( "tap", viewControllerInternal::onItemSelected );
+				itemRendererInstance.removeEventListener( "tap", onItemSelected );
 			}
 
 			_itemsContainer.subViews = newViews;
@@ -208,13 +178,12 @@ package ru.trylogic.gui.components.list
 
 		viewControllerInternal function onItemSelected( event : Event ) : void
 		{
-			const itemRendererInstance : ListButton = event.target as ListButton;
-			itemSelectedEvent.index = itemRendererInstance.index;
-			dispatchEvent( itemSelectedEvent );
+			itemSelectedEvent.index = (event.target as ListButton).index;
 			if ( selectable )
 			{
-				selectedIndex = itemRendererInstance.index;
+				selectedIndex = itemSelectedEvent.index;
 			}
+			dispatchEvent( itemSelectedEvent );
 		}
 	}
 }
