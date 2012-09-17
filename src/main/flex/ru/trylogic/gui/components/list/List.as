@@ -119,7 +119,7 @@ package ru.trylogic.gui.components.list
 
 		protected function onDataChanged( event : Event = null ) : void
 		{
-			maxPages = _dataProvider ? uint( _dataProvider.length / _itemsPerPage ) : 0;
+			maxPages = _dataProvider ? (uint( _dataProvider.length / _itemsPerPage ) + 1) : 1;
 
 			if ( _itemsContainer == null )
 			{
