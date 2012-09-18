@@ -4,9 +4,11 @@ package ru.trylogic.gui.components.list
 	import ru.trylogic.gui.components.button.Button;
 	import ru.trylogic.gui.dataProviders.IListDataProvider;
 
-	[SkinState("selected")]
 	public class ListButton extends Button
 	{
+
+		[Bindable]
+		public var selected : Boolean = false;
 
 		protected var dataProvider : IListDataProvider;
 		protected var _index : int = 0;
@@ -16,33 +18,6 @@ package ru.trylogic.gui.components.list
 		public function get index() : int
 		{
 			return _index;
-		}
-
-		public function  get selected() : Boolean
-		{
-			return view.currentState == "selected";
-		}
-
-		public function set selected( value : Boolean ) : void
-		{
-			if ( selected == value )
-			{
-				return;
-			}
-
-			if ( value )
-			{
-				view.currentState = "selected";
-			}
-			else if ( selected )
-			{
-				view.currentState = "up";
-			}
-		}
-
-		override public function get disabled() : Boolean
-		{
-			return selected || super.disabled;
 		}
 
 		public function ListButton()

@@ -125,6 +125,11 @@ package ru.trylogic.gui.components.list
 			return _selectedItem ? _selectedItem.index : -1;
 		}
 
+		public function get selectedItem() : ListButton
+		{
+			return _selectedItem;
+		}
+
 		public function List()
 		{
 			skinClass = ListSkin;

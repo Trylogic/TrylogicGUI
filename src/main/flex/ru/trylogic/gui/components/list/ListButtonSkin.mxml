@@ -24,7 +24,6 @@
 		<s:State name="up"/>
 		<s:State name="down"/>
 		<s:State name="disabled"/>
-		<s:State name="selected"/>
 	</list:states>
 
 	<image:Image id="buttonImage" texture.up="{hostComponent.skinStyle.upTexture}"
