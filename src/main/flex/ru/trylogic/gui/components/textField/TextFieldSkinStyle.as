@@ -13,6 +13,8 @@ package ru.trylogic.gui.components.textField
 
 		public var fontColor : uint = 0x00000000;
 
+		public var filters : Array;
+
 		public function TextFieldSkinStyle()
 		{
 		}

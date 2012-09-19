@@ -81,5 +81,14 @@ package ru.trylogic.gui.adapters.starling
 		{
 			return super.color;
 		}
+
+		public function set component_filters( value : Array ) : void
+		{
+		}
+
+		public function get component_filters() : Array
+		{
+			return null;
+		}
 	}
 }

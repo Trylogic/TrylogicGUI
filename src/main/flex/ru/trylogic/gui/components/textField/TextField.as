@@ -34,8 +34,20 @@ package ru.trylogic.gui.components.textField
 				fontName = value.fontName;
 				fontColor = value.fontColor;
 				fontSize = value.fontSize;
+				filters = value.filters;
 				_skinStyle.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onSkinStyleChanged, false, 0, true );
 			}
+		}
+
+		public function get filters() : Array
+		{
+			return _face ? (face as ITextFieldAdapter).component_filters : null;
+		}
+
+		[Bindable]
+		public function set filters( value : Array ) : void
+		{
+			(face as ITextFieldAdapter).component_filters = value;
 		}
 
 		public function get text() : String

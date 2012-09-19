@@ -32,6 +32,10 @@ package ru.trylogic.gui.adapters
 		function set component_wordWrap( value : Boolean ) : void;
 
 		function get component_wordWrap() : Boolean;
+
+		function set component_filters( value : Array ) : void;
+
+		function get component_filters() : Array;
 	}
 }
 

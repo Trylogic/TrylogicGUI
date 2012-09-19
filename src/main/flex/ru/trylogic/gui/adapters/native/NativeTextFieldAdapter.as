@@ -106,5 +106,15 @@ package ru.trylogic.gui.adapters.native
 		{
 			return super.textColor;
 		}
+
+		public function set component_filters( value : Array ) : void
+		{
+			super.filters = value;
+		}
+
+		public function get component_filters() : Array
+		{
+			return super.filters;
+		}
 	}
 }
