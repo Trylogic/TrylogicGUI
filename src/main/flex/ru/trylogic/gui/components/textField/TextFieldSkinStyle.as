@@ -11,7 +11,7 @@ package ru.trylogic.gui.components.textField
 
 		public var fontName : String;
 
-		public var fontColor : uint;
+		public var fontColor : uint = 0x00000000;
 
 		public function TextFieldSkinStyle()
 		{
