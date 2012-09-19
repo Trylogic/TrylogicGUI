@@ -71,5 +71,15 @@ package ru.trylogic.gui.adapters.starling
 		{
 			return false;
 		}
+
+		public function set component_fontColor( value : uint ) : void
+		{
+			super.color = value;
+		}
+
+		public function get component_fontColor() : uint
+		{
+			return super.color;
+		}
 	}
 }

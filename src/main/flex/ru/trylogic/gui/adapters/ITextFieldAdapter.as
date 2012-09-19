@@ -9,6 +9,10 @@ package ru.trylogic.gui.adapters
 
 		function get component_text() : String;
 
+		function set component_fontColor( value : uint ) : void;
+
+		function get component_fontColor() : uint;
+
 		function set component_fontName( value : String ) : void;
 
 		function get component_fontName() : String;

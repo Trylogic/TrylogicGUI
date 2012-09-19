@@ -20,9 +20,9 @@ package ru.trylogic.gui.adapters.native
 		public function set component_text( value : String ) : void
 		{
 			text = value || "";
-			if(_textFormat)
+			if ( _textFormat )
 			{
-				setTextFormat(_textFormat);
+				setTextFormat( _textFormat );
 			}
 		}
 
@@ -95,6 +95,16 @@ package ru.trylogic.gui.adapters.native
 		public function get component_wordWrap() : Boolean
 		{
 			return wordWrap;
+		}
+
+		public function set component_fontColor( value : uint ) : void
+		{
+			super.textColor = value;
+		}
+
+		public function get component_fontColor() : uint
+		{
+			return super.textColor;
 		}
 	}
 }

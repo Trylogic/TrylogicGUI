@@ -1,6 +1,7 @@
 package ru.trylogic.gui.components.button
 {
 
+	import ru.trylogic.gui.components.textField.TextFieldSkinStyle;
 	import ru.trylogic.gui.skins.SkinStyle;
 
 	[Bindable]
@@ -13,6 +14,8 @@ package ru.trylogic.gui.components.button
 		public var disabledTexture : *;
 
 		public var iconTexture : *;
+
+		public var textFieldSkinStyle : TextFieldSkinStyle = new TextFieldSkinStyle();
 
 		public function ButtonSkinStyle()
 		{

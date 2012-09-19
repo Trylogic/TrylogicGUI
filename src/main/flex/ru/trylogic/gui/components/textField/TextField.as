@@ -13,6 +13,31 @@ package ru.trylogic.gui.components.textField
 	{
 		protected var _face : ITextFieldAdapter;
 
+		protected var _skinStyle : TextFieldSkinStyle;
+
+		public function set skinStyle( value : TextFieldSkinStyle ) : void
+		{
+			if ( value == _skinStyle )
+			{
+				return;
+			}
+
+			if ( _skinStyle )
+			{
+				_skinStyle.removeEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onSkinStyleChanged );
+			}
+
+			_skinStyle = value;
+
+			if ( _skinStyle )
+			{
+				fontName = value.fontName;
+				fontColor = value.fontColor;
+				fontSize = value.fontSize;
+				_skinStyle.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onSkinStyleChanged, false, 0, true );
+			}
+		}
+
 		public function get text() : String
 		{
 			return _face == null ? "" : ITextFieldAdapter( _face ).component_text;
@@ -21,20 +46,7 @@ package ru.trylogic.gui.components.textField
 		[Bindable]
 		public function set text( value : String ) : void
 		{
-			var oldWidth : Number = width;
-			var oldHeight : Number = height;
-
 			( face as ITextFieldAdapter ).component_text = value;
-
-			if ( oldWidth != width )
-			{
-				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "width", oldWidth, width ) );
-			}
-
-			if ( oldHeight != height )
-			{
-				dispatchEvent( PropertyChangeEvent.createUpdateEvent( this, "height", oldHeight, height ) );
-			}
 		}
 
 		public function get fontName() : String
@@ -46,6 +58,17 @@ package ru.trylogic.gui.components.textField
 		public function set fontName( value : String ) : void
 		{
 			( face as ITextFieldAdapter ).component_fontName = value;
+		}
+
+		public function get fontColor() : uint
+		{
+			return _face == null ? 0 : ITextFieldAdapter( _face ).component_fontColor;
+		}
+
+		[Bindable]
+		public function set fontColor( value : uint ) : void
+		{
+			( face as ITextFieldAdapter ).component_fontColor = value;
 		}
 
 		public function get fontSize() : Object
@@ -100,6 +123,11 @@ package ru.trylogic.gui.components.textField
 		override public function get face() : IDisplayObject
 		{
 			return _face ||= IoCHelper.resolve( ITextFieldAdapter, this ) as ITextFieldAdapter;
+		}
+
+		protected function onSkinStyleChanged( event : PropertyChangeEvent ) : void
+		{
+			this[event.property] = event.newValue;
 		}
 
 		override protected function isPropertyAffectingAtBounds( propName : String ) : Boolean
