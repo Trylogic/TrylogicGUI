@@ -42,6 +42,10 @@ package ru.trylogic.gui.adapters.native
 				_textFormat.font = value;
 			}
 			setTextFormat( _textFormat );
+			if ( value )
+			{
+				embedFonts = true;
+			}
 		}
 
 		public function get component_fontName() : String
