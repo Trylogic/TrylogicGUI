@@ -42,9 +42,28 @@ package ru.trylogic.gui.adapters.native
 				_textFormat.font = value;
 			}
 			setTextFormat( _textFormat );
-			if ( value )
+
+
+			switch ( value )
 			{
-				embedFonts = true;
+				// Device fonts
+				case null:
+				case "Times New Roman":
+				case "Georgia":
+				case "_serif":
+				case "Helvetica":
+				case "Arial":
+				case "Verdana":
+				case "Trebuchet":
+				case "Tahoma":
+				case "_sans":
+				case "Courier New":
+				case "Courier":
+				case "_typewriter":
+					embedFonts = false;
+					break;
+				default:
+					embedFonts = true;
 			}
 		}
 
