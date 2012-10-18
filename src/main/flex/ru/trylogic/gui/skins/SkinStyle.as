@@ -5,13 +5,14 @@ package ru.trylogic.gui.skins
 	import flash.utils.Dictionary;
 
 	import ru.trylogic.gui.components.SkinnableTrylogicComponent;
+	import ru.trylogic.gui.components.TrylogicComponent;
 
 	[Bindable]
 	public class SkinStyle extends EventDispatcher
 	{
 		protected const oldDestinationHolder : Dictionary = new Dictionary( true );
 
-		public function set destination( value : SkinnableTrylogicComponent ) : void
+		public function set destination( value : TrylogicComponent ) : void
 		{
 			for ( var oldDestination : Object in oldDestinationHolder )
 			{
