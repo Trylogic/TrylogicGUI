@@ -7,7 +7,7 @@
 	<groupId>ru.trylogic</groupId>
 	<artifactId>trylogic-gui</artifactId>
 	<packaging>swc</packaging>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 
 	<properties>
 		<flexmojos.version>4.2-beta</flexmojos.version>
@@ -29,6 +29,15 @@
 					<skipTest>true</skipTest>
 					<debug>true</debug>
 					<optimize>true</optimize>
+					<namespaces>
+						<namespace>
+							<uri>http://www.trylogic.ru/gui</uri>
+							<manifest>src/main/resources/gui-manifest.xml</manifest>
+						</namespace>
+					</namespaces>
+					<includeNamespaces>
+						<namespace>http://www.trylogic.ru/gui</namespace>
+					</includeNamespaces>
 				</configuration>
 				<dependencies>
 					<dependency>

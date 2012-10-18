@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+
+    Trylogic Components
+
+-->
+<componentPackage>
+
+	<component id="ContainerBase" class="ru.trylogic.gui.containers.ContainerBase"/>
+
+	<component id="Button" class="ru.trylogic.gui.components.button.Button" />
+	<component id="Image" class="ru.trylogic.gui.components.image.Image" />
+
+</componentPackage>
