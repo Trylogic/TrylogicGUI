@@ -89,7 +89,6 @@
 			<artifactId>flex-framework</artifactId>
 			<version>${flex.framework.version}</version>
 			<type>pom</type>
-			<scope>external</scope>
 		</dependency>
 
 		<dependency>
