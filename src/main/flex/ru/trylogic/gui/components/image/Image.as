@@ -36,6 +36,11 @@ package ru.trylogic.gui.components.image
 			return _face ||= IoCHelper.resolve( IImageAdapter, this ) as IImageAdapter;
 		}
 
+		public function Image()
+		{
+
+		}
+
 		override protected function isPropertyAffectingAtBounds( prop : String ) : Boolean
 		{
 			return prop == "texture" || super.isPropertyAffectingAtBounds( prop );
