@@ -6,7 +6,7 @@ package ru.trylogic.gui.components.stick
 	import ru.trylogic.gui.components.button.Button;
 	import ru.trylogic.gui.containers.ContainerBase;
 	import ru.trylogic.unitouch.gestures.MoveGesture;
-	import ru.trylogic.unitouch.gestures.abstract.GestureEvent;
+	import ru.trylogic.unitouch.gestures.abstractGesture.GestureEvent;
 
 	import ru.trylogic.gui.components.SkinnableTrylogicComponent;
 
