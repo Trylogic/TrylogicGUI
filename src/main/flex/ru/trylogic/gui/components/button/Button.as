@@ -4,7 +4,7 @@ package ru.trylogic.gui.components.button
 	import flash.events.Event;
 
 	import ru.trylogic.unitouch.gestures.TapGesture;
-	import ru.trylogic.unitouch.gestures.abstractGesture.GestureEvent;
+	import ru.trylogic.unitouch.gestures.abstract.GestureEvent;
 
 	import ru.trylogic.gui.components.SkinnableTrylogicComponent;
 

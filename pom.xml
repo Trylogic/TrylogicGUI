@@ -117,26 +117,99 @@
 
 	<repositories>
 		<repository>
-			<id>trylogic-snapshot</id>
-			<url>http://repository-trylogic.forge.cloudbees.com/snapshot/</url>
+			<id>sonatype-repository</id>
+			<url>https://oss.sonatype.org/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>flex-mojos-repository</id>
+			<url>http://repository.sonatype.org/content/groups/flexgroup/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>trylogic</id>
+			<name>Trylogic</name>
+			<url>http://repo.trylogic.ru/content/repositories/public/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+			<layout>default</layout>
 		</repository>
 
 		<repository>
 			<id>trylogic-releases</id>
-			<url>http://repository-trylogic.forge.cloudbees.com/release/</url>
-		</repository>
-
-		<repository>
-			<id>flex-mojos-repository</id>
-			<url>http://repository.sonatype.org/content/groups/flexgroup/</url>
+			<name>Trylogic releases</name>
+			<url>http://repo.trylogic.ru/content/repositories/releases/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<layout>default</layout>
 		</repository>
 	</repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
+			<id>sonatype-repository</id>
+			<url>https://oss.sonatype.org/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
 			<id>flex-mojos-repository</id>
 			<url>http://repository.sonatype.org/content/groups/flexgroup/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>trylogic</id>
+			<name>Trylogic</name>
+			<url>http://repo.trylogic.ru/content/repositories/public/</url>
+			<layout>default</layout>
+		</snapshotRepository>
+
+		<repository>
+			<id>trylogic-releases</id>
+			<name>Trylogic releases</name>
+			<url>http://repo.trylogic.ru/content/repositories/releases/</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 
 </project>
